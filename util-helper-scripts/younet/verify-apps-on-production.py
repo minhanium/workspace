@@ -9,7 +9,7 @@ for app_name in list_apps:
 		config_path = os.path.join(app_path,'application/configs')
 		application_ini_file = os.path.join(config_path, 'application.ini')
 		try:
-			if 'i2YIM0Jh28DcNBKyhxUClsOAITXSgXSVIS0OvO1q' in open(application_ini_file).read():
+			if 'i2YIMfdfd0Jh28DcNBKyhxUClsOAITXSgXSVIS0OvO1q' in open(application_ini_file).read():
 				print app_name + ":true" 
 			else:
 				print app_name + ":FAILE"
