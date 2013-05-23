@@ -8,7 +8,11 @@
 
 ## Install Node Web Framework - Express
 
+## Hướng dãn cài đặt Front-end
 
+## Hướng dẫn cài đặt Back-end
+
+## Testing với Unit test
 
 #Reference:
 1. [Learn Backbone.js Completely](http://javascriptissexy.com/learn-backbone-js-completely/)
