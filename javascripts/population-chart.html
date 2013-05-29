@@ -25,23 +25,25 @@ $(function () {
                 type: 'column'
             },
             title: {
-                text: 'Column chart with negative values'
+                text: 'Facebook Age and Gender'
             },
             xAxis: {
                 categories: ['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'],
                 offset: -154,
-                lineWidth: 20,                
+                lineWidth: 20,  
+                labels : {
+                    y: 4
+                }
             },
             yAxis: {                
                 labels:{
-                    formatter: function(){return Math.abs(this.value);}
+                    formatter: function(){return Math.abs(this.value);},
+                    enabled: false
                 },
-                type: 'category',
-                minPadding: 0.5,
-                categories: ['Female', 'Male']
-            },
-            credits: {
-                enabled: false
+                title: {
+                    text : null
+                },
+                gridLineWidth: 0,
             },
             tooltip: {
                 formatter: function(){ return Math.abs(this.y);}
@@ -49,19 +51,16 @@ $(function () {
             plotOptions: {
                 column: {
                     stacking: 'normal',
-                    dataLabels: {                        
+                    dataLabels: {
                         formatter: function(){return Math.abs(this.y); }
                     }
                 }
             },
             series: [{
-                name: 'John',
-                data: [5, 3, 4, 7, 2, 5, 10],
-                dataLabels: {
-                    formatter: function(){return Math.abs(this.y); }
-                }
+                name: 'Female',
+                data: [5, 3, 4, 7, 2, 5, 10]
             }, {
-                name: 'Jane',
+                name: 'Male',
                 data: [-2, -10, -3, -2, -1, -5, -8]
             }]
         });
