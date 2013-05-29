@@ -4150,8 +4150,7 @@ SVGRenderer.prototype = {
 	 *    like renderer.text, or to the upper border of the rectangle. 
 	 * @param {String} className Class name for the group 
 	 */
-	label: function (str, x, y, shape, anchorX, anchorY, useHTML, baseline, className) {
-
+	label: function (str, x, y, shape, anchorX, anchorY, useHTML, baseline, className) {		
 		var renderer = this,
 			wrapper = renderer.g(className),
 			text = renderer.text('', 0, 0, useHTML)
@@ -4180,6 +4179,7 @@ SVGRenderer.prototype = {
 		 * box and reflect it in the border box.
 		 */
 		function updateBoxSize() {
+			console.log(4);
 			var boxX,
 				boxY,
 				style = text.element.style;
@@ -13450,7 +13450,7 @@ Series.prototype = {
 	/**
 	 * Draw the markers
 	 */
-	drawPoints: function () {
+	drawPoints: function () {        
 		var series = this,
 			pointAttr,
 			points = series.points,
@@ -13790,8 +13790,8 @@ Series.prototype = {
 	/**
 	 * Draw the data labels
 	 */
-	drawDataLabels: function () {
-		
+	drawDataLabels: function () {	
+		console.log(1)			;
 		var series = this,
 			seriesOptions = series.options,
 			options = seriesOptions.dataLabels,
@@ -13908,8 +13908,7 @@ Series.prototype = {
 						.add(dataLabelsGroup)
 						.shadow(options.shadow);
 						
-					}
-					
+					}							
 					if (dataLabel) {
 						// Now the data label is created and placed at 0,0, so we need to align it
 						series.alignDataLabel(point, dataLabel, options, null, isNew);
@@ -14058,7 +14057,7 @@ Series.prototype = {
 	/**
 	 * Draw the actual graph
 	 */
-	drawGraph: function () {
+	drawGraph: function () {        
 		var series = this,
 			options = this.options,
 			props = [['graph', options.lineColor || this.color]],
@@ -14242,7 +14241,7 @@ Series.prototype = {
 	/**
 	 * Render the graph and markers
 	 */
-	render: function () {
+	render: function () {        
 		var series = this,
 			chart = series.chart,
 			group,
@@ -14294,6 +14293,7 @@ Series.prototype = {
 		series.drawDataLabels();
 		
 		// draw the points
+        console.log(4444444444);
 		series.drawPoints();
 
 
@@ -15148,13 +15148,11 @@ var ColumnSeries = extendClass(Series, {
 	 * apply for columns and bars. This method is inherited by scatter series.
 	 *
 	 */
-	drawPoints: function () {
+	drawPoints: function () {        
 		var series = this,
 			options = series.options,
 			renderer = series.chart.renderer,
-			shapeArgs;
-
-
+			shapeArgs;        
 		// draw the columns
 		each(series.points, function (point) {
 			var plotY = point.plotY,
@@ -15162,12 +15160,21 @@ var ColumnSeries = extendClass(Series, {
 
 			if (plotY !== UNDEFINED && !isNaN(plotY) && point.y !== null) {
 				shapeArgs = point.shapeArgs;
+                var detal = 10;
+                if( shapeArgs.y == 153.5)
+                {
+                    shapeArgs.y += detal;
+                }
+                else
+                {
+                    shapeArgs.y -= detal;
+                }
 				
 				if (graphic) { // update
 					stop(graphic);
 					graphic.animate(merge(shapeArgs));
 
-				} else {
+				} else {                    
 					point.graphic = graphic = renderer[point.shapeType](shapeArgs)
 						.attr(point.pointAttr[point.selected ? SELECT_STATE : NORMAL_STATE])
 						.add(series.group)
@@ -15820,7 +15827,7 @@ var PieSeries = {
 	/**
 	 * Override the base drawDataLabels method by pie specific functionality
 	 */
-	drawDataLabels: function () {
+	drawDataLabels: function () {		
 		var series = this,
 			data = series.data,
 			point,
