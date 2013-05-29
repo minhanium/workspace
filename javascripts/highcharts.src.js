@@ -4179,7 +4179,6 @@ SVGRenderer.prototype = {
 		 * box and reflect it in the border box.
 		 */
 		function updateBoxSize() {
-			console.log(4);
 			var boxX,
 				boxY,
 				style = text.element.style;
@@ -11637,7 +11636,8 @@ Chart.prototype = {
 				.attr({ zIndex: 3 })
 				.add();
 		}
-		each(chart.series, function (serie) {
+		each(chart.series, function (serie, i) {
+            serie['index'] = i;
 			serie.translate();
 			serie.setTooltipPoints();
 			serie.render();
@@ -14293,7 +14293,6 @@ Series.prototype = {
 		series.drawDataLabels();
 		
 		// draw the points
-        console.log(4444444444);
 		series.drawPoints();
 
 
@@ -15161,7 +15160,7 @@ var ColumnSeries = extendClass(Series, {
 			if (plotY !== UNDEFINED && !isNaN(plotY) && point.y !== null) {
 				shapeArgs = point.shapeArgs;
                 var detal = 10;
-                if( shapeArgs.y == 153.5)
+                if( series['index'] === 1)
                 {
                     shapeArgs.y += detal;
                 }
