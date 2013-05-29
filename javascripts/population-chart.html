@@ -30,13 +30,9 @@ $(function () {
             xAxis: {
                 categories: ['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'],
                 offset: -154,
-                lineWidth: 20,
-                labels : {
-                    y: 4
-                },                
+                lineWidth: 20,                
             },
-            yAxis: {
-                //reversed: true
+            yAxis: {                
                 labels:{
                     formatter: function(){return Math.abs(this.value);}
                 },
@@ -47,21 +43,23 @@ $(function () {
             credits: {
                 enabled: false
             },
-            tooltip:{
+            tooltip: {
                 formatter: function(){ return Math.abs(this.y);}
             },
-             plotOptions: {
+            plotOptions: {
                 column: {
                     stacking: 'normal',
-                    dataLabels: {
-                        enabled: true,
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                    dataLabels: {                        
+                        formatter: function(){return Math.abs(this.y); }
                     }
                 }
             },
             series: [{
                 name: 'John',
-                data: [5, 3, 4, 7, 2, 5, 10]
+                data: [5, 3, 4, 7, 2, 5, 10],
+                dataLabels: {
+                    formatter: function(){return Math.abs(this.y); }
+                }
             }, {
                 name: 'Jane',
                 data: [-2, -10, -3, -2, -1, -5, -8]
@@ -75,7 +73,7 @@ $(function () {
 
 </head>
 <body>
-  <script src="http://code.highcharts.com/highcharts.src.js"></script>
+  <script src="highcharts.src.js"></script>
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 
