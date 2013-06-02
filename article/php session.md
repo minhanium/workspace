@@ -16,7 +16,7 @@ Nhưng để biết điều này như thế nào, có một số điều thật 
 
 Để biết bạn là ai, PHP Session cho phép lưu trữ thông tin của trình duyệt hiện mà bạn đang sử dụng cho các lần request tiếp theo, trong cùng một phiên giao dịch. Chẳng hạn như bạn bên dưới dùng `key` là `user_identity` để check user đã đăng nhập hay chưa.
 
-  if( !empty($_SESSION['user_identity']) )
+    if( !empty($_SESSION['user_identity']) )
 	{
 		//@todo Xử lý trong trường hợp user đã đăng nhập
 	}
