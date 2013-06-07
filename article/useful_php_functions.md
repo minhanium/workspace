@@ -123,6 +123,36 @@ Muốn tạo một array từ 10 phần tử với giá trị ban đầu là 0, 
 
 Ví dụ như khi bạn cần update rất nhiều một lại một loạt các column trong một table, nhưng mà cái params truyền vào có thể dư một số cột cần thiết, và loại bỏ những cột không cần thiết. Kỹ thuật bên dưới đây sẽ giúp bạn điều đó:
 
+## 5. Vui chơi giải trí với các kiểu debug trong PHP
+
+### 5.1 die() - Một quyền tự xác trong PHP
+
+Ai cũng biết rằng tự xác là để biết biết chắc rằng đọa code chỗ này được gọi.
+
+### 5.2 var_dump() rồi die()
+
+Cái này thường thấy nhất cho những lúc suy sụp của PHP Developer. Muốn biết cái biến đó có giá trị gì trước lúc chết.
+
+> Bất lực với những giải pháp thời đồ đá.
+> dump() và die() là những giải pháp rất chi là mệt, sau này bạn xài các framework và PHP thế hệ mới bạn không biết một function của bạn được được gọi khi nào, ai gọi, ở đâu... Đó là lúc bạn cần nghĩ đến 
+
+### 5.3 Debug với Exception
+
+Thông thường các lập trình viên sẽ nghĩ là Exception là khi mình viết code xử lý sai gì đó, cái PHP nó show lên Exception. Ừ đúng, nhưng mà như vậy là còn thiếu.
+
+Thông thường, nếu một chúng ta có thể ném ra một Exception, nếu mà chúng ta thấy một biến nào đó không thõa điều kiện mong đợi, ví dụ bên dưới.
+
+	if( !($param instanceof Foo) )
+	{
+		throw new Exception('$param should be an Foo instance.')
+	}
+
+Nhưng nếu bạn đang debug, bạn muốn trace back thì bạn có thể:
+
+	new Exception('Tự xác ở đây...');
+
+Chương trình của bạn sẽ die ở đó, và PHP sẽ in ra màn hình trace back để bạn từ từ mà suy ngẫm.
+
 ## Tổng kết:
 
 Trước khi đi tới lời kết, xin cảm ơn vì bạn đã dành thời gian đọc bài viết này. Và rất mong nhận được feedback các kiểu. Chúng tôi không ngại bị ném đá, sỉ nhục, thậm chí là khen tặng.
