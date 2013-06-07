@@ -77,9 +77,13 @@ Nghe có vẻ căng thẳng nhưng vấn đề trên không phải là do cái c
 Giờ đây $array sẽ là:
 	
 	$array = array(
-		'red' 	=> '#FF0000',
+		'red' 	=> '#FF0000',#red được update
 		'green' => '#00FF00',
 		'blue'	=> '#0000FF',
-		'pink'	=> '#FF00FF'
+		'pink'	=> '#FF00FF'#pink được thêm vào
 	);
+
+> Hàm này rất là có gía trị trong rất nhiều trường hợp, như bạn cần build <next page> cho một cái gridview với phải giữ lại nhiều số như sort, search bạn chỉ cần gọi:
+
+	$this->curentUrl().'?'.http_build_query($GET, @$GET['page']+1);
 	
