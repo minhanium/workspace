@@ -74,7 +74,7 @@ Nghe có vẻ căng thẳng nhưng vấn đề trên không phải là do cái c
 	);
 	$array = array_merge($array, $another);
 	
-	Giờ đây $array sẽ là:
+Giờ đây $array sẽ là:
 	
 	$array = array(
 		'red' 	=> '#FF0000',
