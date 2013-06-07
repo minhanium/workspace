@@ -87,3 +87,58 @@ Giờ đây $array sẽ là:
 
 	$this->curentUrl().'?'.http_build_query($_GET, @$_GET['page']+1);
 	
+### 4.2 Toán tử + (cộng)
+
+Lấy ví dụ 4.1, chúng ta thay vì xài array_merge thì xài toản tử cộng thì sao:
+
+	$array = array(
+		'red'	=> 'red',
+		'green' => '#00FF00',
+		'blue'	=> '#0000FF'
+	);
+	$another = array(
+		'red' 	=> '#FF0000',
+		'pink'	=> '#FF00FF'
+	);
+	$array = $array + $another;
+
+Giờ đây $array sẽ là:
+	
+	$array = array(
+		'red' 	=> 'red',
+		'green' => '#00FF00',
+		'blue'	=> '#0000FF',
+		'pink'	=> '#FF00FF'#Chỉ có duy nhất pink được thêm vào
+	);
+	
+> Ý nghĩ của toán tử này là, nó chỉ thêm vào các giá trị mà nó chưa có mà không ghi đề lên các grá trị cũ.
+
+### 4.3 array_fill
+
+Muốn tạo một array từ 10 phần tử với giá trị ban đầu là 0, bạn chỉ cần:
+
+	$array = array_fill(0,10,0);
+
+### 4.4 Chỉ dùng những key xác định trong một Array
+
+Ví dụ như khi bạn cần update rất nhiều một lại một loạt các column trong một table, nhưng mà cái params truyền vào có thể dư một số cột cần thiết, và loại bỏ những cột không cần thiết. Kỹ thuật bên dưới đây sẽ giúp bạn điều đó:
+
+## Tổng kết:
+
+Trước khi đi tới lời kết, xin cảm ơn vì bạn đã dành thời gian đọc bài viết này. Và rất mong nhận được feedback các kiểu. Chúng tôi không ngại bị ném đá, sỉ nhục, thậm chí là khen tặng.
+
+Và để giải quyết cho vấn đề 3.3, tôi xin dùng một kỹ thuật như sau, kỹ thuật này tôi học được từ jQuery với code Javascript, nhưng với PHP thì rất chi là ổn:
+
+	function foo($params){
+		$default_params = array(
+			'var3' => 'default',
+			'var4' => 'default',
+			'var5' => 'default'
+		);
+		//array_merge chỗ này tương ứng với $.extend trong jQuery
+		$params = array_merge($default_params, $params);#Kỹ thuật được học từ 4.1
+		
+		//@todo Xử lý tiếp bên dưới
+	}
+	
+Chúc các bạn một cuối tuần nhiều niềm vui.
