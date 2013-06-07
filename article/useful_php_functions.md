@@ -85,5 +85,5 @@ Giờ đây $array sẽ là:
 
 > Hàm này rất là có gía trị trong rất nhiều trường hợp, như bạn cần build <next page> cho một cái gridview với phải giữ lại nhiều số như sort, search bạn chỉ cần gọi:
 
-	$this->curentUrl().'?'.http_build_query($GET, @$GET['page']+1);
+	$this->curentUrl().'?'.http_build_query($_GET, @$_GET['page']+1);
 	
