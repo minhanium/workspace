@@ -149,7 +149,7 @@ Thông thường, nếu một chúng ta có thể ném ra một Exception, nếu
 
 Nhưng nếu bạn đang debug, bạn muốn trace back thì bạn có thể:
 
-	new Exception('Tự xác ở đây...');
+	new Exception('Tự xác ở đây...');#Tại đây bạn biết được nguyên nhân gây ra cái chết, và thủ phạm.
 
 Chương trình của bạn sẽ die ở đó, và PHP sẽ in ra màn hình trace back để bạn từ từ mà suy ngẫm.
 
