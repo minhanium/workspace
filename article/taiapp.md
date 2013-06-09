@@ -46,3 +46,10 @@ Cho phép user edit được profile của mình và setting thêm các thông s
 
 1. Change password
 2. Register nhận newsleter
+3. 
+
+## Tạo order đăng kí review app
+1. Chọn store:
+    - Apple (default)
+    - Google (next version)
+2. Add id của app
