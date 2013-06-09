@@ -29,6 +29,7 @@ Sau khi đăng nhập người sử dụng (user) có thể chọn một trong h
 
 1. Validate on Browser
 2. Validate on Server
+    - Nếu không phải đăng nhập từ thông qua Google, Facebook thì cần send email xác thực
     - Send email to confirm
 
 > Chỗ này yêu cầu #dev phải sẽ phải gởi cho #PM yêu cầu kỹ thuât như cho phép:    
