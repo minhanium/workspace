@@ -31,7 +31,7 @@ Sau khi đăng nhập người sử dụng (user) có thể chọn một trong h
 2. Validate on Server
     - Send email to confirm
 
-> Chỗ này yêu cầu #dev phải sẽ phải gởi cho mình yêu cầu kỹ thuât như cho phép:
+> Chỗ này yêu cầu #dev phải sẽ phải gởi cho mình yêu cầu kỹ thuât như cho phép:    
 > 1. Cho phép cấu hình email như thế nào để send được email
 > 2. Cơ chế để xác định một email chỉ được đăng kí một lần duy nhất là thế nào. Nếu một ai đó cố tình đăng kí tài bằng email của người khác mà không bao giờ xác thực được thì sao?
 
