@@ -1,6 +1,6 @@
-# Đăng nhập
+# Đăng nhập & đăng kí tài khoản
 
-Cho phép user đăng nhập sử dụng tài khoản:
+## Cho phép user đăng nhập sử dụng tài khoản:
 
 1. Google
 2. Facebook
@@ -39,3 +39,10 @@ Sau khi đăng nhập người sử dụng (user) có thể chọn một trong h
 ### Confirm email
 1. Sau khi confirm email, tài khoản được xem là valid.
 2. Cho phép người ta cancel cái email active nếu không phải là email của họ
+
+## Setting and Editing Profile
+
+Cho phép user edit được profile của mình và setting thêm các thông số khác:
+
+1. Change password
+2. Register nhận newsleter
