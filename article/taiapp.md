@@ -14,13 +14,13 @@ Sau khi đăng nhập người sử dụng (user) có thể chọn một trong h
 
 ### Form đăng kí:
 
-* Email
++ Email
     - Validate on both Browser and Server
-* iTunes nickname
-* iTunes country
-* Free/Paid app:
++ iTunes nickname
++ iTunes country
++ Free/Paid app:
     - Free app
     - Paid app
     - Both free and paid app
-* Password
-* Confirm password
++ Password
++ Confirm password
