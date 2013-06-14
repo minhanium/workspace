@@ -10,16 +10,16 @@ Nhưng như vậy là quá phức tạp. Hiểu một cách đơn giản là:
 
 1. Giả sử khi ta có ngôn ngữ PHP như:
 
-    <?php
-        /*welcome.php*/
-        echo 'Hello world!';
-    ?>
+        <?php
+            /*welcome.php*/
+            echo 'Hello world!';
+        ?>
 
 Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output ra cái nội dung `Hello world!`
 
 2. Với Nodejs ta có thể viết:
 
-    /*welcome.js*/
-    console.log('Hello world!');
+        /*welcome.js*/
+        console.log('Hello world!');
 
 Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
