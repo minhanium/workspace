@@ -179,6 +179,7 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 1. Xây dựng một pool để chứa các request mà từ phía PHP Server push/send lên Nodejs Server.
 2. Xây dựng một cơ chế để pop các message từ pool ra để xử lý.
 
+
     var http    = require('http');
     var url     = require('url');
     
