@@ -53,3 +53,6 @@ Chúng ta sẽ có 2 đoạn code như sau:
         }).listen(1337, '127.0.0.1');
         console.log('Server running at http://127.0.0.1:1337/');
 
+### Kết luận:
+
+> Chúng ta có thể dùng Nodejs như PHP để xử lý tương tự như là một webserver (?)
