@@ -122,3 +122,16 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
             
             fs.writeFile("view_number.txt", view_number);/*Hàm này ghi file bất đồng bộ/
         }).listen(1337, '127.0.0.1');
+
+
+## Ứng dụng Nodejs để get FB data
+
+### Vấn đề hiện tại của PHP
+
+### Giải quyết với Nodejs
+
+### Demo kiểm chứng
+
+## Liên lạc giữa PHP với Nodejs
+
+## Demo ~ Lấy likes info của một Post và insert vào MySQL
