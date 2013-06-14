@@ -155,11 +155,12 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 1. Không kiểm soát được tài nguyên của máy tính:
         
-        * Khi phải đợi thì máy tính làm gì? Lúc đó làm thế nào để các script khác có thể thực thi script khác đang rãnh rỗi?
-        * Làm sao để kiểm soát được lượng request đến Facebook là đạt số lượng cho phép tối đa, không thừa không thiếu.
+        * Khi phải đợi thì máy tính làm gì?
+        * => Lúc đó làm thế nào để các script khác có thể thực thi script khác đang rãnh rỗi?
+        * Làm sao để kiểm soát được lượng request đến Facebook là đạt số lượng cho phép tối đa.
+        * => Không thừa không thiếu.
 
 2. Các giải pháp bổ sung rất phức tạp, kiến trúc khó bảo trì và chống lấn các script lên nhau như crontab, script checker, master, slave v.v...
-
 
 ### Giải quyết với Nodejs
 
