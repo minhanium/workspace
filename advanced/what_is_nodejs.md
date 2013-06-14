@@ -44,7 +44,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
         header('Content-Type: text/plain!');
         echo 'Hello World from PHP';
 
-2. Cho Nodejs
+2. Cho Nodejs (copy từ ví dụ official trên wesite của Nodejs)
 
         var http = require('http');
         http.createServer(function (req, res) {
