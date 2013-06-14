@@ -126,7 +126,29 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 ## Ứng dụng Nodejs để get FB data
 
+Chúng ta sẽ bàn về vấn đề này, thông qua một ngữ cảnh cụ thể, với ví dụ sau đây:
+
+> Request lên Facebook 200 basic info của user thông qua [graph.facebook.com/<id_social_uer>](graph.facebook.com/<id_social_uer>). Trong thời gian nhanh nhất.
+
 ### Vấn đề hiện tại của PHP
+
+Tạm thời không nghĩ tới các vấn đề kỹ thuật như Batch, FSQL để tiếp cận một ví dụ cho đơn giản để làm rõ vấn đề hiện tại của PHP là gì?
+
+Như ai đã từng dùng xDebug để debug PHP, là khi chúng ta gọi một Graph API lên Facebook thông qua phương thức `Facebook::api(/<id_social_user>)` là cái hàm đó sẽ pending và đợi kết quả trả về.
+
+> Thực sự vấn đề là bên trong PHP sẽ dùng `curl` để request lên Facebook và đợi kết quả trả về. Ở `curl` chúng ta cũng có option để nó không phải đợi và đi tới hàm tiếp theo. Nhưng rõ ràng điều này không thể app dụng cho FB request. Chúng ta chỉ làm điều anfy, chỉ khi nào chúng ta chỉ send một rquest lên server mà không cần nhận kết quả trả về.
+
+Đến đây, tôi đã từng nghĩ rằng: **Vậy cũng đâu có sao, foreach 200 lần thôi.**
+
+Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, để đợi kết quả trả về. Giả sử thời gian delay do phải over network là 900ms mỗi một request. Thì tuần tự mỗi lần chúng ta sẽ tốn 9s cho 9 requests. Trong khi đó chúng ta nếu mở 10 connect cùng lúc. Thì có thể chỉ tốn khoản ~1s cho 9 request mà thôi. Có thẻ mở trình duyệt lên để kiếm chứng điều này.
+
+> Vậy là một lượng connect hợp lý đến server mà không cần bắt máy tính phải đợi là hợp lý hơn nhiều so với lần lượt từng connection một.
+
+Vậy thì với PHP chúng ta chỉ cần gọi `php slave_get_user_info <id_social_user>` 200 lần là được.
+
+Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy rất tốn kém tài nguyên. Và một máy tính thông thường, số lượng process có thể mở ra là có giới hạn.
+
+> Không chỉ giới hạn về tài nguyên của máy tính khi tiếp cận với cách trên mà còn khó để lập trình + bảo trì cho nó. 
 
 ### Giải quyết với Nodejs
 
