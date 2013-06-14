@@ -99,13 +99,17 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
         var view_number = -1;
         
         http.createServer(function (req, res) {
+            /**
+             * Giải quyết vấn đề khởi động lần đầu tiên
+             */
             if( view_number === -1 ){
-                data = fs.readFileSync('view_number.txt');
+                console.log('Read this line only one time when the server is started');
+                data = fs.readFileSync('view_number.txt');/*Hàm này dùng để đọc file cho đến khi nào được dữ liệu*/
                 view_number = parseInt(data);
             }
             
             view_number++;
             res.end(view_number.toString());
             
-            fs.writeFile("view_number.txt", view_number);
+            fs.writeFile("view_number.txt", view_number);/*Hàm này ghi file bất đồng bộ/
         }).listen(1337, '127.0.0.1');
