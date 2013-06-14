@@ -1,0 +1,97 @@
+Index: css/main.css
+===================================================================
+--- css/main.css	(revision 7043)
++++ css/main.css	(working copy)
+@@ -3126,7 +3126,8 @@
+     color: white;
+     text-decoration: none;
+ }
+-#dialog { 
++#dialog {
++    position: relative;
+ }
+ .ui-widget-overlay {
+ 	background: none repeat scroll 0 0 #000000 !important;
+Index: javascript/main.js
+===================================================================
+--- javascript/main.js	(revision 7043)
++++ javascript/main.js	(working copy)
+@@ -1822,38 +1822,37 @@
+ 				function(response)
+ 				{
+                     $("#dialog").empty().html(response);
+-					$("#dialog").dialog({
+-						modal		: true,
+-						width		: 530,
+-						height		: 500,
+-						title		: 'Post detail',
+-						open: function( event, ui ) {
+-							$("#dialog").lionbars();
+-//							if ($("#dialog").find('#lb-wrap-0-dialog').length)
+-//								$("#dialog").find('#lb-wrap-0-dialog').css("padding", "20px 20px 0p 20px"); 
+-//							else
+-//								$("#dialog").css("padding", '20px 0px 20px 20px');
+-//							$("#dialog").dialog( "option", "width", 535 );
+-						},
+-						buttons		: {
+-							'View on Facebook'	: function(){
+-								$(this).dialog("close");
+-								window.location = $(e.target).attr('data-href');
+-							},
+-							'Close'	: function(){
+-								$(this).dialog("close");
+-									return false;
+-							}
+-						}
+-					});                    
+-					var postDetail = new PostView({el: '#dialog .post-detail'});
+-					var id_profile = $('#js_profile').html().split(',');
+-					for(var i = 0; i < id_profile.length ; i++)
+-					{
+-						Social.getInfoById(id_profile[i], function(response){
+-							$(".uname-" + response['id']).text(response['name']);
+-						});
+-					}
++                    $("#dialog").append('<div id="helper" style="top: 0;width: 530px; height: 500px; position: absolute; background-color: white;">Loading</div>');
++                    $("#dialog").dialog({
++                        modal		: true,
++                        width		: 530,
++                        height		: 500,
++                        title		: 'Post detail',
++                        open: function( event, ui ) {                            
++                            setTimeout(function(){
++                                $("#helper").remove();
++                                $("#dialog").lionbars();                                
++                            },1000);
++                        },
++                        buttons		: {
++                            'View on Facebook'	: function(){
++                                $(this).dialog("close");
++                                window.location = $(e.target).attr('data-href');
++                            },
++                            'Close'	: function(){
++                                $(this).dialog("close");
++                                    return false;
++                            }
++                        }
++                    });                    
++                    var postDetail = new PostView({el: '#dialog .post-detail'});
++                    var id_profile = $('#js_profile').html().split(',');
++                    for(var i = 0; i < id_profile.length ; i++)
++                    {
++                        Social.getInfoById(id_profile[i], function(response){
++                            $(".uname-" + response['id']).text(response['name']);
++                        });
++                    }
+ 				}
+ 			);
+ 		},
+@@ -2376,7 +2375,7 @@
+ 
+ function dialogLionbar()
+ {
+-    $('#dialog').lionbars();
++    //$('#dialog').lionbars();
+ //	if ($("#dialog").find('#lb-wrap-0-dialog').length)
+ //	{
+ //		$("#dialog").find('#lb-wrap-0-dialog').css("padding", "20px 20px 0px 20px"); 
