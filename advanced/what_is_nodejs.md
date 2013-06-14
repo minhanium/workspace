@@ -40,7 +40,9 @@ Chúng ta sẽ có 2 đoạn code như sau:
 1. Cho PHP
 
         <?php
-        echo `Hello World from PHP`
+        header('HTTP/1.0 200 OK');
+        header('Content-Type: text/plain');
+        echo 'Hello World from PHP';
 
 2. Cho Nodejs
 
