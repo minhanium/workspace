@@ -59,7 +59,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
 
 ## So sánh Javascript được viết ở phía Server vs. Client side
 
-Ý này sẽ tập trugn làm rõ vậy Javascript được viết ở Server side như ví dụ ở trên có gì khác biệt với Javascript được viết ở Client side?
+Ý này sẽ tập trung làm rõ vậy Javascript được viết ở Server side như ví dụ ở trên có gì khác biệt với Javascript được viết ở Client side?
 
 1. Javacript được viết ở Client side thì bị hạn chế nhiều tính năng như:
 
