@@ -153,7 +153,7 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 > Không chỉ giới hạn về tài nguyên của máy tính khi tiếp cận với cách trên mà còn khó để lập trình + bảo trì cho nó. 
 
 
-### Kết luận:
+### Thu hoạch số 4:
 
 1. Không kiểm soát được tài nguyên của máy tính:
         
@@ -168,6 +168,47 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 ### Demo kiểm chứng
 
+### Thu hoạch số 5:
+
+> Cơ chế của Javascript/Nodejs là bất đồng bộ.
+
 ## Liên lạc giữa PHP với Nodejs
+
+Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
+
+1. Xây dựng một pool để chứa các request mà từ phía PHP Server push/send lên Nodejs Server.
+2. Xây dựng một cơ chế để pop các message từ pool ra để xử lý.
+
+    var http     = require('http');
+    var url 	= require('url');
+    
+    var pool = [];
+    
+    var __main__ = function(){
+    	console.log('Length of Pool: ' + pool.length);
+    	setTimeout(__main__, 1000);
+    };
+    
+    http.createServer(function (req, res) {
+    	var url_parts 	= url.parse(req.url, true);
+    	var query 		= url_parts.query;
+    	res.writeHead(200, {'Content-Type': 'text/plain'});
+    
+    	if( query['id'] )
+    	{
+    		pool.push(query['id']);
+    		res.end('Recieved a request id:' + query['id']);
+    		return;
+    	}
+    	res.end('Pong');
+    }).listen(1337, '127.0.0.1');
+    
+    __main__();
+
+> Tại sao lại là khái niệm pool mà không phải stack:
+
+1. Chúng ta sẽ không cố gắng mô tả giống như Stack: FIFO
+2. Chúng ta implement cái pool ~ có nghĩa là một cái hồ chứa. Và nó có xử lý khi bị tràn.
+3. Một cái pool + với các vấn đề về sự ưu tiên (priority) của message sẽ được implement một cách đầy đủ.
 
 ## Demo ~ Lấy likes info của một Post và insert vào MySQL
