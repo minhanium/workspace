@@ -179,31 +179,32 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 1. Xây dựng một pool để chứa các request mà từ phía PHP Server push/send lên Nodejs Server.
 2. Xây dựng một cơ chế để pop các message từ pool ra để xử lý.
 
-    var http     = require('http');
-    var url 	= require('url');
+    var http    = require('http');
+    var url     = require('url');
     
-    var pool = [];
+    var pool        = [];
     
-    var __main__ = function(){
-    	console.log('Length of Pool: ' + pool.length);
-    	setTimeout(__main__, 1000);
+    var __main__    = function(){
+        console.log('Length of Pool: ' + pool.length);
+        setTimeout(__main__, 1000);
     };
     
     http.createServer(function (req, res) {
-    	var url_parts 	= url.parse(req.url, true);
-    	var query 		= url_parts.query;
-    	res.writeHead(200, {'Content-Type': 'text/plain'});
-    
-    	if( query['id'] )
-    	{
-    		pool.push(query['id']);
-    		res.end('Recieved a request id:' + query['id']);
-    		return;
-    	}
-    	res.end('Pong');
+        var url_parts 	= url.parse(req.url, true);
+        var query 		= url_parts.query;
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        
+        if( query['id'] )
+        {
+            pool.push(query['id']);
+            res.end('Recieved a request id:' + query['id']);
+            return;
+        }
+        res.end('Pong');
     }).listen(1337, '127.0.0.1');
     
     __main__();
+    
 
 > Tại sao lại là khái niệm pool mà không phải stack:
 
