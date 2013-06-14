@@ -218,3 +218,5 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 > Chúng ta có thể dùng cái này để cung cấp giải pháp như là cập nhật lại thống kê cho user action mỗi khi một cái post change category của nó theo kiểu realtime. Bằng cách send lên server của Nodejs thông tin về cái page mà mình muốn cập nhật.
 
 ## Demo ~ Lấy likes info của một Post và insert vào MySQL
+
+Sẽ là thiếu thuyết phục nếu như bài viết này không demo Nodejs với MySQL làm việc như thế nào? Chúng ta sẽ xem qua script bên dưới để xem Nodejs làm việc có khả thi không? Bằng cách lấy một lúc likes của 10 post và insert vào MySQL.
