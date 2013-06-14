@@ -130,7 +130,7 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 Chúng ta sẽ bàn về vấn đề này, thông qua một ngữ cảnh cụ thể, với ví dụ sau đây:
 
-> Request lên Facebook 200 basic info của user thông qua [graph.facebook.com/<id_social_uer>](graph.facebook.com/<id_social_uer>). Trong thời gian nhanh nhất.
+> Request lên Facebook 200 basic info của user thông qua [graph.facebook.com/id_social_uer](graph.facebook.com/id_social_uer). Trong thời gian nhanh nhất.
 
 ### Vấn đề hiện tại của PHP
 
@@ -146,7 +146,7 @@ Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, đ�
 
 > Vậy là một lượng connect hợp lý đến server mà không cần bắt máy tính phải đợi là hợp lý hơn nhiều so với lần lượt từng connection một.
 
-Vậy thì với PHP chúng ta chỉ cần gọi `php slave_get_user_info <id_social_user>` 200 lần là được.
+Vậy thì với PHP chúng ta chỉ cần gọi `php slave_get_user_info id_social_user` 200 lần là được.
 
 Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy rất tốn kém tài nguyên. Và một máy tính thông thường, số lượng process có thể mở ra là có giới hạn.
 
