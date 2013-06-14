@@ -90,7 +90,7 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
         $view_number = @file_get_contents('view_number.txt');
         $view_number = $view_number + 1;
         @file_put_contents('view_number.txt', $view_number);
-        echo $view_number;
+        echo 'Số lượt request: '. $view_number;
 
 2. Cho Nodejs
 
@@ -107,7 +107,7 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
             }
             
             view_number++;
-            res.end(view_number.toString());
+            res.end('Số lượt request: ' + view_number.toString());
             
             fs.writeFile("view_number.txt", view_number);/*Hàm này ghi file bất đồng bộ/
         }).listen(1337, '127.0.0.1');
