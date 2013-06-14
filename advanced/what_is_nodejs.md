@@ -94,22 +94,18 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 2. Cho Nodejs
 
-        var http = require('http');
-        var fs = require('fs');
+        var http        = require('http');
+        var fs          = require('fs');
         var view_number = -1;
         
         http.createServer(function (req, res) {
-        
-                if( view_number === -1 ){
-        		data = fs.readFileSync('view_number.txt');
-        		view_number = parseInt(data);
-        	}
-        
-        	view_number++;
-        	res.end(view_number.toString());
-        
-        	setTimeout(function(){
-        		fs.writeFile("view_number.txt", view_number);
-        	},1000);
-        
-        }).listen(8082, '127.0.0.1');
+            if( view_number === -1 ){
+                data = fs.readFileSync('view_number.txt');
+                view_number = parseInt(data);
+            }
+            
+            view_number++;
+            res.end(view_number.toString());
+            
+            fs.writeFile("view_number.txt", view_number);
+        }).listen(1337, '127.0.0.1');
