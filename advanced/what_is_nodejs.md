@@ -53,7 +53,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
         }).listen(1337, '127.0.0.1');
         console.log('Server running at http://127.0.0.1:1337/');
 
-### Kết luận thứ nhất:
+### Thu hoạch số 1:
 
 > Chúng ta có thể dùng Nodejs như PHP để xử lý tương tự như là một webserver (?)
 
@@ -73,7 +73,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
         * Và cách tính năng khác có thể có như những gì chúng ta đã làm với PHP
         * Được xây dựng trên nền tảng V8 Engine - Cái nhân để thông dịch Javascript trên trình duyệt Chrome
 
-### Kết luận thứ hai:
+### Thu hoạch số 2:
 
 > Nói vậy thì chúng ta chả thấy nó so với PHP có gì hay. Mất thời gian học một ngôn ngữ khác mà chẳng có gì khác biệt. Trong khi PHP đã có tuổi. Được kiểm chứng với biết bao dự án thành công.
 
@@ -100,6 +100,8 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
            view_number++;
            res.end(view_number.toString());
         }).listen(1337, '127.0.0.1');
+
+### Thu hoạch số 3:
 
 > Tới đây chúng ta có thể thấy được rằng sự khác biệt đầu tiên là Nodejs chạy giống như một phần mềm `Desktop`. Nó không giống như PHP clear hết mọi thứ mỗi khi kết thúc một request. Biến view_number ở phía Nodejs vẫn được giữ lại và chỉ đơn giản là tăng lên sau mỗi lượt request mà thôi.
 
