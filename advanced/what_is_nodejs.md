@@ -71,6 +71,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
         * Đọc và ghi file
         * Làm việc với hệ quản trị cơ sở dữ liệu như MySQL, MongoDB
         * Và cách tính năng khác có thể có như những gì chúng ta đã làm với PHP
+        * Được xây dựng trên nền tảng V8 Engine - Cái nhân để thông dịch Javascript trên trình duyệt Chrome
 
 ### Kết luận thứ hai:
 
