@@ -6,11 +6,20 @@ Theo như định nghĩa trên chính website của nó là:
 
 Nhưng như vậy là quá phức tạp. Hiểu một cách đơn giản là:
 
-*Nodejs là một trình thông dịch của cho ngôn ngữ Javascript*. Sao lại nói như vậy? Giả sử khi ta có ngôn ngữ PHP như:
+**Nodejs là một trình thông dịch của cho ngôn ngữ Javascript**. Sao lại nói như vậy?
+
+1. Giả sử khi ta có ngôn ngữ PHP như:
 
     <?php
-        #welcome.php
+        /*welcome.php*/
         echo 'Hello world!';
     ?>
 
 Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output ra cái nội dung `Hello world!`
+
+2. Với Nodejs ta có thể viết:
+
+    /*welcome.js*/
+    console.log('Hello world!');
+
+Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
