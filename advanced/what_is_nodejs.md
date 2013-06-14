@@ -53,7 +53,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
         }).listen(1337, '127.0.0.1');
         console.log('Server running at http://127.0.0.1:1337/');
 
-### Kết luận:
+### Kết luận thứ nhất:
 
 > Chúng ta có thể dùng Nodejs như PHP để xử lý tương tự như là một webserver (?)
 
@@ -72,3 +72,44 @@ Chúng ta sẽ có 2 đoạn code như sau:
         * Làm việc với hệ quản trị cơ sở dữ liệu như MySQL, MongoDB
         * Và cách tính năng khác có thể có như những gì chúng ta đã làm với PHP
 
+### Kết luận thứ hai:
+
+> Nói vậy thì chúng ta chả thấy nó so với PHP có gì hay. Mất thời gian học một ngôn ngữ khác mà chẳng có gì khác biệt. Trong khi PHP đã có tuổi. Được kiểm chứng với biết bao dự án thành công.
+
+## Sự khác nhau cơ bản giữa PHP vs. Nodejs
+
+Đúng là như vậy. Nếu chúng ta so sánh giữa iPhone5 vs với Nokia 1200 với tính năng thoại và sms thì rõ ràng điện thoại nào cũng như điện thoại nào. Tất nhiên, khi người ta phát triển một cái gì đó mới mẻ bao giờ cũng có ít nhất là triết lý, xa hơn nữa là lý do nhằm để giải quyết một hoặc nhiều vấn đề cụ thể nào đó.
+
+Chúng ta sẽ đi qua một ví dụ khác:
+
+Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, cứ mỗi một request từ trình duyệt đén chúng ta sẽ tăng nó lên 1 đơn vị và hiện thị ở browser.
+
+1. Cho PHP
+
+        <?php
+        $view_number = @file_get_contents('view_number.txt');
+        $view_number = $view_number + 1;
+        @file_put_contents('view_number.txt', $view_number);
+        echo $view_number;
+
+2. Cho Nodejs
+
+        var http = require('http');
+        var fs = require('fs');
+        var view_number = -1;
+        
+        http.createServer(function (req, res) {
+        
+                if( view_number === -1 ){
+        		data = fs.readFileSync('view_number.txt');
+        		view_number = parseInt(data);
+        	}
+        
+        	view_number++;
+        	res.end(view_number.toString());
+        
+        	setTimeout(function(){
+        		fs.writeFile("view_number.txt", view_number);
+        	},1000);
+        
+        }).listen(8082, '127.0.0.1');
