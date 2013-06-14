@@ -213,4 +213,8 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 2. Chúng ta implement cái pool ~ có nghĩa là một cái hồ chứa. Và nó có xử lý khi bị tràn.
 3. Một cái pool + với các vấn đề về sự ưu tiên (priority) của message sẽ được implement một cách đầy đủ.
 
+### Thu hoạch số 6:
+
+> Chúng ta có thể dùng cái này để cung cấp giải pháp như là cập nhật lại thống kê cho user action mỗi khi một cái post change category của nó theo kiểu realtime. Bằng cách send lên server của Nodejs thông tin về cái page mà mình muốn cập nhật.
+
 ## Demo ~ Lấy likes info của một Post và insert vào MySQL
