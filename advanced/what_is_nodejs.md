@@ -142,7 +142,7 @@ Như ai đã từng dùng xDebug để debug PHP, là khi chúng ta gọi một 
 
 Đến đây, tôi đã từng nghĩ rằng: **Vậy cũng đâu có sao, foreach 200 lần thôi.**
 
-Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, để đợi kết quả trả về. Giả sử thời gian delay do phải over network là 900ms mỗi một request. Thì tuần tự mỗi lần chúng ta sẽ tốn 9s cho 9 requests. Trong khi đó chúng ta nếu mở 10 connect cùng lúc. Thì có thể chỉ tốn khoản ~1s cho 9 request mà thôi. Có thẻ mở trình duyệt lên để kiếm chứng điều này.
+Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, để đợi kết quả trả về. Giả sử thời gian delay do phải over network là 900ms mỗi một request. Thì tuần tự mỗi lần chúng ta sẽ tốn 9s cho 9 requests. Trong khi đó chúng ta nếu mở 10 connect cùng lúc. Thì có thể chỉ tốn khoản ~1s cho 9 request mà thôi. Có thẻ mở trình duyệt lên để kiếm chứng điều này. Trình duyệt sẽ mở một lần nhiều connect đến server để request file javascript, css, image v.v...
 
 > Vậy là một lượng connect hợp lý đến server mà không cần bắt máy tính phải đợi là hợp lý hơn nhiều so với lần lượt từng connection một.
 
