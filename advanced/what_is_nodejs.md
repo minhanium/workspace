@@ -32,8 +32,8 @@ Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 Chúng ta thử tạo ra một hai ví dụ sau:
 
-1. Với PHP, mỗi khi truy xuất vào: `http://php.me` thì hiển thị ra dòng chữ `Hello World from PHP!`
-2. Với Nodejs mỗi khi truy xuất vào `http://nodejs.me` thì hiển thị ra dòng chữ `Hello World from Nodejs!`
+1. Với PHP, mỗi khi truy xuất vào: [http://php.me](http://php.me) thì hiển thị ra dòng chữ `Hello World from PHP!`
+2. Với Nodejs mỗi khi truy xuất vào [http://nodejs.me](http://nodejs.me) thì hiển thị ra dòng chữ `Hello World from Nodejs!`
 
 Chúng ta sẽ có 2 đoạn code như sau:
 
