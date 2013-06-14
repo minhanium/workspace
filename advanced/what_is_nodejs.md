@@ -84,7 +84,7 @@ Chúng ta sẽ đi qua một ví dụ khác:
 
 Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, cứ mỗi một request từ trình duyệt đén chúng ta sẽ tăng nó lên 1 đơn vị và hiện thị ở browser.
 
-1. Cho PHP
+1. Cho PHP - Demo [http://php.me/counter.php](http://php.me/counter.php)
 
         <?php
         $view_number = @file_get_contents('view_number.txt');
@@ -92,7 +92,17 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
         @file_put_contents('view_number.txt', $view_number);
         echo 'Số lượt request: '. $view_number;
 
-2. Cho Nodejs
+2. Cho Nodejs - Demo [http://nodejs.me/counter.js](http://nodejs.me/counter.js)
+
+        var view_number = 0;
+        http.createServer(function (req, res) {
+           view_number++;
+           res.end(view_number.toString());
+        }).listen(1337, '127.0.0.1');
+
+> Tới đây chúng ta có thể thấy được rằng sự khác biệt đầu tiên là Nodejs chạy giống như một phần mềm `Desktop`. Nó không giống như PHP clear hết mọi thứ mỗi khi kết thúc một request. Biến view_number ở phía Nodejs vẫn được giữ lại và chỉ đơn giản là tăng lên sau mỗi lượt request mà thôi.
+
+## Cải tiến cho trường hợp phải restart lại Server
 
         var http        = require('http');
         var fs          = require('fs');
