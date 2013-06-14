@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+   ServerName php.me
+   DocumentRoot /var/www/php.me/
+   <Directory "/var/www/php.me">
+       Order allow,deny
+       Allow from all
+   </Directory>
+</VirtualHost>
