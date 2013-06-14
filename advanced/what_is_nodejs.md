@@ -99,9 +99,7 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
         var view_number = -1;
         
         http.createServer(function (req, res) {
-            /**
-             * Giải quyết vấn đề khởi động lần đầu tiên
-             */
+            /* Giải quyết vấn đề khởi động lần đầu tiên*/
             if( view_number === -1 ){
                 console.log('Read this line only one time when the server is started');
                 data = fs.readFileSync('view_number.txt');/*Hàm này dùng để đọc file cho đến khi nào được dữ liệu*/
