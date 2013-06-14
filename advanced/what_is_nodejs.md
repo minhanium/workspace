@@ -30,4 +30,24 @@ Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 ## So sánh theo cơ chế hoạt động
 
-Giả sử chúng ta có cơ chế hoạt động như sau:
+Chúng ta thử tạo ra một hai ví dụ sau:
+
+1. Với PHP, mỗi khi truy xuất vào: `http://php.me` thì hiển thị ra dòng chữ `Hello World from PHP`
+2. Với Nodejs mỗi khi truy xuất vào `http://nodejs.me` thì hiển thị ra dòng chữ `Hello World from Nodejs`
+
+Chúng ta sẽ có 2 đoạn code như sau:
+
+1. Cho PHP
+
+        <?php
+        echo `Hello World from PHP`
+
+2. Cho Nodejs
+
+        var http = require('http');
+        http.createServer(function (req, res) {
+          res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.end('Hello World from Nodejs!');
+        }).listen(1337, '127.0.0.1');
+        console.log('Server running at http://127.0.0.1:1337/');
+
