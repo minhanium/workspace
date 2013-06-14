@@ -56,3 +56,15 @@ Chúng ta sẽ có 2 đoạn code như sau:
 ### Kết luận:
 
 > Chúng ta có thể dùng Nodejs như PHP để xử lý tương tự như là một webserver (?)
+
+## So sánh Javascript được viết ở phía Server vs. Client side
+
+Ý này sẽ tập trugn làm rõ vậy Javascript được viết ở Server side như ví dụ ở trên có gì khác biệt với Javascript được viết ở Client side?
+
+1. Javacript được viết ở Client side thì bị hạn chế nhiều tính năng như:
+        * Không thể đọc và ghi file v.v...
+        * Được xứ lý bởi các trình thông dịch khác nhau của từng trình duyệt khác nhau như IE, Chrome, Firefox
+2. Javascript được viết ở Client side thông dịch bằng Nodejs sẽ có nhiều tính năng hơn
+        * Đọc và ghi file
+        * Làm việc với hệ quản trị cơ sở dữ liệu như MySQL, MongoDB
+        * Và cách tính năng khác có thể có như những gì chúng ta đã làm với PHP
