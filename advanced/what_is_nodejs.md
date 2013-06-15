@@ -10,18 +10,20 @@ Nhưng như vậy là quá phức tạp. Hiểu một cách đơn giản là:
 
 1. Giả sử khi ta có ngôn ngữ PHP như:
 
-        <?php
-            /*welcome.php*/
-            echo 'Hello world!';
-        ?>
-
+	```php
+	<?php
+	    /*welcome.php*/
+	    echo 'Hello world!';
+	?>
+	```
 Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output ra cái nội dung `Hello world!`
 
 2. Với Nodejs ta có thể viết:
-
-        /*welcome.js*/
-        console.log('Hello world!');
-
+	
+	```javascript
+    /*welcome.js*/
+    console.log('Hello world!');
+	```
 Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 > Điều này cho thấy, chúng ta có thể viết những cái script bằng ngôn ngữ Javascript để làm những chuyện tương tự như PHP, được thực thi thông quan Nodejs mà không cần thông qua trình duyệt. Và bài viết này sẽ cố gắng mô tả thông qua sự so sánh với PHP platform.
@@ -39,19 +41,22 @@ Chúng ta sẽ có 2 đoạn code như sau:
 
 1. Cho PHP
 
-        <?php
-        header('HTTP/1.0 200 OK');
-        header('Content-Type: text/plain!');
-        echo 'Hello World from PHP';
-
+	```php
+    <?php
+    header('HTTP/1.0 200 OK');
+    header('Content-Type: text/plain!');
+    echo 'Hello World from PHP';
+	```
 2. Cho Nodejs (copy từ ví dụ official trên wesite của Nodejs)
-
-        var http = require('http');
-        http.createServer(function (req, res) {
-          res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end('Hello World from Nodejs!');
-        }).listen(1337, '127.0.0.1');
-        console.log('Server running at http://127.0.0.1:1337/');
+	
+	```javascript
+    var http = require('http');
+    http.createServer(function (req, res) {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Hello World from Nodejs!');
+    }).listen(1337, '127.0.0.1');
+    console.log('Server running at http://127.0.0.1:1337/');
+	```
 
 ### Thu hoạch số 1:
 
@@ -86,20 +91,24 @@ Chúng ta sẽ đi qua một ví dụ khác:
 Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, cứ mỗi một request từ trình duyệt đén chúng ta sẽ tăng nó lên 1 đơn vị và hiện thị ở browser.
 
 1. Cho PHP - Demo [http://php.me/counter.php](http://php.me/counter.php)
-
-        <?php
-        $view_number = @file_get_contents('view_number.txt');
-        $view_number = $view_number + 1;
-        @file_put_contents('view_number.txt', $view_number);
-        echo 'Số lượt request: '. $view_number;
+		
+	```php
+    <?php
+    $view_number = @file_get_contents('view_number.txt');
+    $view_number = $view_number + 1;
+    @file_put_contents('view_number.txt', $view_number);
+    echo 'Số lượt request: '. $view_number;
+	```
 
 2. Cho Nodejs - Demo [http://nodejs.me/counter.js](http://nodejs.me/counter.js)
-
-        var view_number = 0;
-        http.createServer(function (req, res) {
-           view_number++;
-           res.end(view_number.toString());
-        }).listen(1337, '127.0.0.1');
+	
+	```javascript
+    var view_number = 0;
+    http.createServer(function (req, res) {
+       view_number++;
+       res.end(view_number.toString());
+    }).listen(1337, '127.0.0.1');
+	```
 
 ### Thu hoạch số 3:
 
@@ -109,60 +118,63 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 Nói như vậy thì không same khi so sánh PHP (+Apache) vs. Nodejs. Bản thân Nodejs tự nó làm chức năng như một web server + handler. Mỗi khi có một request tới. Nó đơn giản là tạo ra một gọi cái callback mà chúng ta đã register để xứ lý. Do đó biến `view_numer` được chia sẽ/sử dụng lại như là biến toàn cục cho các function khác nhau. Nếu đứng ở view nhìn này, thì chúng ta cũng có thể dùng PHP để làm tương tự.
 
-	<?php
-	error_reporting(E_ALL);
-	set_time_limit(0);
-	ob_implicit_flush();
+```php
+<?php
+error_reporting(E_ALL);
+set_time_limit(0);
+ob_implicit_flush();
 
-	$server         = create_socket();
-	$view_number    = 0;
+$server         = create_socket();
+$view_number    = 0;
 
+do {
+	$request = socket_accept($server);
 	do {
-		$request = socket_accept($server);
-		do {
-			$respone   = ++$view_number.'';
-			socket_write($request, $respone, strlen($respone));
-			break;
-		} while (true);
-		socket_close($request);
+		$respone   = ++$view_number.'';
+		socket_write($request, $respone, strlen($respone));
+		break;
 	} while (true);
+	socket_close($request);
+} while (true);
 
-	socket_close($server);
+socket_close($server);
 
-	function create_socket()
-	{
-		$address    = '127.0.0.1';
-		$port       = 10000;
-		$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-		socket_bind($sock, $address, $port);
-		socket_listen($sock, 5);
-		return $sock;
-	}
-
+function create_socket()
+{
+	$address    = '127.0.0.1';
+	$port       = 10000;
+	$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+	socket_bind($sock, $address, $port);
+	socket_listen($sock, 5);
+	return $sock;
+}
+```
+	
 ### Thu hoạch số 4:
 
 > Chúng ta có thể dùng PHP trong ngữ cảnh đơn giản này: counter số lượt request. Nhưng như vậy thì PHP và Nodejs khác biệc cơ bản là ở đâu?
 
 ## Cải tiến cho trường hợp phải restart lại Server
+	
+```javascript
+var http        = require('http');
+var fs          = require('fs');
+var view_number = -1;
 
-        var http        = require('http');
-        var fs          = require('fs');
-        var view_number = -1;
-        
-        http.createServer(function (req, res) {
-            /* Giải quyết vấn đề khởi động lần đầu tiên*/
-            if( view_number === -1 ){
-                console.log('Read this line only one time when the server is started');
-                data = fs.readFileSync('view_number.txt');/*Hàm này dùng để đọc file cho đến khi nào được dữ liệu*/
-                view_number = parseInt(data);
-            }
-            
-            view_number++;
-            res.end('Số lượt request: ' + view_number.toString());
-            
-            fs.writeFile("view_number.txt", view_number);/*Hàm này ghi file bất đồng bộ/
-        }).listen(1337, '127.0.0.1');
-
+http.createServer(function (req, res) {
+    /* Giải quyết vấn đề khởi động lần đầu tiên*/
+    if( view_number === -1 ){
+        console.log('Read this line only one time when the server is started');
+        data = fs.readFileSync('view_number.txt');/*Hàm này đọc file cho đến khi nào được dữ liệu*/
+        view_number = parseInt(data);
+    }
+    
+    view_number++;
+    res.end('Số lượt request: ' + view_number.toString());
+    
+    fs.writeFile("view_number.txt", view_number);/*Hàm này ghi file bất đồng bộ/
+}).listen(1337, '127.0.0.1');
+```
 
 ## Ứng dụng Nodejs để get FB data
 
@@ -227,33 +239,33 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 1. Xây dựng một pool để chứa các request mà từ phía PHP Server push/send lên Nodejs Server.
 2. Xây dựng một cơ chế để pop các message từ pool ra để xử lý.
 
-
-        var http    = require('http');
-        var url     = require('url');
-        
-        var pool        = [];
-        
-        var __main__    = function(){
-            console.log('Length of Pool: ' + pool.length);
-            setTimeout(__main__, 1000);
-        };
-        
-        http.createServer(function (req, res) {
-        var url_parts 	= url.parse(req.url, true);
-            var query 		= url_parts.query;
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            
-            if( query['id'] )
-            {
-                pool.push(query['id']);
-                res.end('Recieved a request id:' + query['id']);
-                return;
-            }
-            res.end('Pong');
-        }).listen(1337, '127.0.0.1');
-        
-        __main__();
+	```javascript
+    var http    = require('http');
+    var url     = require('url');
     
+    var pool        = [];
+    
+    var __main__    = function(){
+        console.log('Length of Pool: ' + pool.length);
+        setTimeout(__main__, 1000);
+    };
+    
+    http.createServer(function (req, res) {
+    var url_parts 	= url.parse(req.url, true);
+        var query 		= url_parts.query;
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        
+        if( query['id'] )
+        {
+            pool.push(query['id']);
+            res.end('Recieved a request id:' + query['id']);
+            return;
+        }
+        res.end('Pong');
+    }).listen(1337, '127.0.0.1');
+    
+    __main__();
+    ```
 
 > Tại sao lại là khái niệm pool mà không phải stack:
 
