@@ -107,42 +107,41 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 ### Cải tiến cho PHP có thể work như Nodejs
 
-Nói như vậy thì không same khi so sánh PHP (+Apache) vs. Nodejs. Bản thân Nodejs tự nó làm chức năng như một web server + handler. Mỗi khi có một request tới. Nó đơn giản là tạo ra một thread khác để xử lý. Do đó biến `view_numer` được chia sẽ/sử dụng lại ở các thread khác nhau. Do đó nếu chúng ta cải tiến lại PHP để viết tương tự
-như Nodejs thì chúng ta cũng có thể làm tương tự.
+Nói như vậy thì không same khi so sánh PHP (+Apache) vs. Nodejs. Bản thân Nodejs tự nó làm chức năng như một web server + handler. Mỗi khi có một request tới. Nó đơn giản là tạo ra một gọi cái callback mà chúng ta đã register để xứ lý. Do đó biến `view_numer` được chia sẽ/sử dụng lại như là biến toàn cục cho các function khác nhau. Nếu đứng ở view nhìn này, thì chúng ta cũng có thể dùng PHP để làm tương tự.
 
-        	<?php
-		error_reporting(E_ALL);
-		set_time_limit(0);
-		ob_implicit_flush();
+	<?php
+	error_reporting(E_ALL);
+	set_time_limit(0);
+	ob_implicit_flush();
 
-		$server         = create_socket();
-		$view_number    = 0;
+	$server         = create_socket();
+	$view_number    = 0;
 
+	do {
+		$request = socket_accept($server);
 		do {
-			$request = socket_accept($server);
-			do {
-				$respone   = ++$view_number.'';
-				socket_write($request, $respone, strlen($respone));
-				break;
-			} while (true);
-			socket_close($request);
+			$respone   = ++$view_number.'';
+			socket_write($request, $respone, strlen($respone));
+			break;
 		} while (true);
+		socket_close($request);
+	} while (true);
 
-		socket_close($server);
+	socket_close($server);
 
-		function create_socket()
-		{
-			$address    = '127.0.0.1';
-			$port       = 10000;
-			$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-			socket_bind($sock, $address, $port);
-			socket_listen($sock, 5);
-			return $sock;
-		}
+	function create_socket()
+	{
+		$address    = '127.0.0.1';
+		$port       = 10000;
+		$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+		socket_bind($sock, $address, $port);
+		socket_listen($sock, 5);
+		return $sock;
+	}
 
 ### Thu hoạch số 4:
 
-> Chúng ta có thể dùng PHP trong ngữ cảnh đơn giản này.
+> Chúng ta có thể dùng PHP trong ngữ cảnh đơn giản này: counter số lượt request. Nhưng như vậy thì PHP và Nodejs khác biệc cơ bản là ở đâu?
 
 ## Cải tiến cho trường hợp phải restart lại Server
 
@@ -177,6 +176,8 @@ Tạm thời không nghĩ tới các vấn đề kỹ thuật như Batch, FSQL �
 
 Như ai đã từng dùng xDebug để debug PHP, là khi chúng ta gọi một Graph API lên Facebook thông qua phương thức `Facebook::api(/<id_social_user>)` là cái hàm đó sẽ pending và đợi kết quả trả về.
 
+![PHP No Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/nothread.png)
+
 > Thực sự vấn đề là bên trong PHP sẽ dùng `curl` để request lên Facebook và đợi kết quả trả về. Ở `curl` chúng ta cũng có option để nó không phải đợi và đi tới hàm tiếp theo. Nhưng rõ ràng điều này không thể app dụng cho FB request. Chúng ta chỉ làm điều này, chỉ khi nào chúng ta chỉ send một rquest lên server mà không cần nhận kết quả trả về.
 
 Đến đây, tôi đã từng nghĩ rằng: **Vậy cũng đâu có sao, foreach 200 lần thôi.**
@@ -191,7 +192,6 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 > Không chỉ giới hạn về tài nguyên của máy tính khi tiếp cận với cách trên mà còn khó để lập trình + bảo trì cho nó. 
 
-
 ### Thu hoạch số 4:
 
 1. Không kiểm soát được tài nguyên của máy tính:
@@ -203,7 +203,12 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 2. Các giải pháp bổ sung rất phức tạp, kiến trúc khó bảo trì và chống lấn các script lên nhau như crontab, script checker, master, slave v.v...
 
+### Cách làm hiện tại với PHP
+
 ### Giải quyết vấn đề với PHP
+
+PHP không support Threading ở level native. Do đó nếu ở vấn đề phía trên, do ví dụ tiếp cận khá đơn giản, mà đủ cái nhìn tổng quát. Nếu chúng ta không phải làm bài toán về tăng `view_number` lên 1 đơn vị. Mà là một xử lý `request user info` từ facebook	với thời gian xử lý lâu hơn do phải over network. Thì điều gì xảy ra nếu như có nhiều request liên tục được gởi đến.
+
 
 ### Giải quyết với Nodejs
 
@@ -211,7 +216,7 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 ### Thu hoạch số 5:
 
-> Cơ chế của Javascript/Nodejs là bất đồng bộ.
+> Javascript/Nodejs support Threading dưới một cách native, do đó mà trong các vấn đề về xử lý bất đồng bộ, tiếp cận thông qua Nodejs là rất dễ dàng và đơn giản.
 
 ## Liên lạc giữa PHP với Nodejs
 
