@@ -24,7 +24,7 @@ Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output
 
 Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
-> Điều này cho thấy, chúng ta có thể viết những cái script bằng ngôn ngữ Javascript để làm những chuyện tương tự như PHP, mà được thực thư thông quan Nodejs mà không cần thông qua trình duyệt. Và bài viết này sẽ cố gắng mô tả thông qua sự so sánh với PHP, cũng là một ngôn ngữ script được thông dịch qua PHP platform.
+> Điều này cho thấy, chúng ta có thể viết những cái script bằng ngôn ngữ Javascript để làm những chuyện tương tự như PHP, được thực thi thông quan Nodejs mà không cần thông qua trình duyệt. Và bài viết này sẽ cố gắng mô tả thông qua sự so sánh với PHP platform.
 
 # So sánh Nodejs platform vs. PHP plaftorm (+ Apache)
 
@@ -32,7 +32,7 @@ Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 Chúng ta thử tạo ra một hai ví dụ sau:
 
-1. Với PHP, mỗi khi truy xuất vào: [http://php.me](http://php.me) thì hiển thị ra dòng chữ `Hello World from PHP!`
+1. Với PHP (+Apache), mỗi khi truy xuất vào: [http://php.me](http://php.me) thì hiển thị ra dòng chữ `Hello World from PHP!`
 2. Với Nodejs mỗi khi truy xuất vào [http://nodejs.me](http://nodejs.me) thì hiển thị ra dòng chữ `Hello World from Nodejs!`
 
 Chúng ta sẽ có 2 đoạn code như sau:
@@ -55,7 +55,7 @@ Chúng ta sẽ có 2 đoạn code như sau:
 
 ### Thu hoạch số 1:
 
-> Chúng ta có thể dùng Nodejs như PHP để xử lý tương tự như là một webserver (?)
+> Chúng ta có thể dùng Nodejs như PHP (+ Apache) để xử lý tương tự như là một web server.
 
 ## So sánh Javascript được viết ở phía Server vs. Client side
 
@@ -75,9 +75,9 @@ Chúng ta sẽ có 2 đoạn code như sau:
 
 ### Thu hoạch số 2:
 
-> Nói vậy thì chúng ta chả thấy nó so với PHP có gì hay. Mất thời gian học một ngôn ngữ khác mà chẳng có gì khác biệt. Trong khi PHP đã có tuổi. Được kiểm chứng với biết bao dự án thành công.
+> Nói vậy thì chúng ta chả thấy nó so với PHP có gì hay. Mất thời gian học một ngôn ngữ khác mà chẳng có gì khác biệt. Trong khi PHP đã có tuổi, nhiều dự án thành công.
 
-## Sự khác nhau cơ bản giữa PHP vs. Nodejs
+## Sự khác nhau cơ bản giữa PHP platform vs. Nodejs platform
 
 Đúng là như vậy. Nếu chúng ta so sánh giữa iPhone5 vs với Nokia 1200 với tính năng thoại và sms thì rõ ràng điện thoại nào cũng như điện thoại nào. Tất nhiên, khi người ta phát triển một cái gì đó mới mẻ bao giờ cũng có ít nhất là triết lý, xa hơn nữa là lý do nhằm để giải quyết một hoặc nhiều vấn đề cụ thể nào đó.
 
@@ -104,6 +104,45 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 ### Thu hoạch số 3:
 
 > Tới đây chúng ta có thể thấy được rằng sự khác biệt đầu tiên là Nodejs chạy giống như một phần mềm `Desktop`. Nó không giống như PHP clear hết mọi thứ mỗi khi kết thúc một request. Biến view_number ở phía Nodejs vẫn được giữ lại và chỉ đơn giản là tăng lên sau mỗi lượt request mà thôi.
+
+### Cải tiến cho PHP có thể work như Nodejs
+
+Nói như vậy thì không same khi so sánh PHP (+Apache) vs. Nodejs. Bản thân Nodejs tự nó làm chức năng như một web server + handler. Mỗi khi có một request tới. Nó đơn giản là tạo ra một thread khác để xử lý. Do đó biến `view_numer` được chia sẽ/sử dụng lại ở các thread khác nhau. Do đó nếu chúng ta cải tiến lại PHP để viết tương tự
+như Nodejs thì chúng ta cũng có thể làm tương tự.
+
+        	<?php
+		error_reporting(E_ALL);
+		set_time_limit(0);
+		ob_implicit_flush();
+
+		$server         = create_socket();
+		$view_number    = 0;
+
+		do {
+			$request = socket_accept($server);
+			do {
+				$respone   = ++$view_number.'';
+				socket_write($request, $respone, strlen($respone));
+				break;
+			} while (true);
+			socket_close($request);
+		} while (true);
+
+		socket_close($server);
+
+		function create_socket()
+		{
+			$address    = '127.0.0.1';
+			$port       = 10000;
+			$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+			socket_bind($sock, $address, $port);
+			socket_listen($sock, 5);
+			return $sock;
+		}
+
+### Thu hoạch số 4:
+
+> Chúng ta có thể dùng PHP trong ngữ cảnh đơn giản này.
 
 ## Cải tiến cho trường hợp phải restart lại Server
 
