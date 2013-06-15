@@ -110,35 +110,35 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 Nói như vậy thì không same khi so sánh PHP (+Apache) vs. Nodejs. Bản thân Nodejs tự nó làm chức năng như một web server + handler. Mỗi khi có một request tới. Nó đơn giản là tạo ra một thread khác để xử lý. Do đó biến `view_numer` được chia sẽ/sử dụng lại ở các thread khác nhau. Do đó nếu chúng ta cải tiến lại PHP để viết tương tự
 như Nodejs thì chúng ta cũng có thể làm tương tự.
 
-        	<?php
-		error_reporting(E_ALL);
-		set_time_limit(0);
-		ob_implicit_flush();
+	<?php
+	error_reporting(E_ALL);
+	set_time_limit(0);
+	ob_implicit_flush();
 
-		$server         = create_socket();
-		$view_number    = 0;
+	$server         = create_socket();
+	$view_number    = 0;
 
+	do {
+		$request = socket_accept($server);
 		do {
-			$request = socket_accept($server);
-			do {
-				$respone   = ++$view_number.'';
-				socket_write($request, $respone, strlen($respone));
-				break;
-			} while (true);
-			socket_close($request);
+			$respone   = ++$view_number.'';
+			socket_write($request, $respone, strlen($respone));
+			break;
 		} while (true);
+		socket_close($request);
+	} while (true);
 
-		socket_close($server);
+	socket_close($server);
 
-		function create_socket()
-		{
-			$address    = '127.0.0.1';
-			$port       = 10000;
-			$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-			socket_bind($sock, $address, $port);
-			socket_listen($sock, 5);
-			return $sock;
-		}
+	function create_socket()
+	{
+		$address    = '127.0.0.1';
+		$port       = 10000;
+		$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+		socket_bind($sock, $address, $port);
+		socket_listen($sock, 5);
+		return $sock;
+	}
 
 ### Thu hoạch số 4:
 
