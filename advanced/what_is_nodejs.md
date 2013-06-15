@@ -138,7 +138,7 @@ Tạm thời không nghĩ tới các vấn đề kỹ thuật như Batch, FSQL �
 
 Như ai đã từng dùng xDebug để debug PHP, là khi chúng ta gọi một Graph API lên Facebook thông qua phương thức `Facebook::api(/<id_social_user>)` là cái hàm đó sẽ pending và đợi kết quả trả về.
 
-> Thực sự vấn đề là bên trong PHP sẽ dùng `curl` để request lên Facebook và đợi kết quả trả về. Ở `curl` chúng ta cũng có option để nó không phải đợi và đi tới hàm tiếp theo. Nhưng rõ ràng điều này không thể app dụng cho FB request. Chúng ta chỉ làm điều anfy, chỉ khi nào chúng ta chỉ send một rquest lên server mà không cần nhận kết quả trả về.
+> Thực sự vấn đề là bên trong PHP sẽ dùng `curl` để request lên Facebook và đợi kết quả trả về. Ở `curl` chúng ta cũng có option để nó không phải đợi và đi tới hàm tiếp theo. Nhưng rõ ràng điều này không thể app dụng cho FB request. Chúng ta chỉ làm điều này, chỉ khi nào chúng ta chỉ send một rquest lên server mà không cần nhận kết quả trả về.
 
 Đến đây, tôi đã từng nghĩ rằng: **Vậy cũng đâu có sao, foreach 200 lần thôi.**
 
