@@ -112,7 +112,7 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 ### Thu hoạch số 3:
 
-> Tới đây chúng ta có thể thấy được rằng sự khác biệt đầu tiên là Nodejs chạy giống như một phần mềm `Desktop`. Nó không giống như PHP clear hết mọi thứ mỗi khi kết thúc một request. Biến view_number ở phía Nodejs vẫn được giữ lại và chỉ đơn giản là tăng lên sau mỗi lượt request mà thôi.
+> Tới đây chúng ta có thể thấy được rằng sự khác biệt đầu tiên là Nodejs chạy giống như một phần mềm `Desktop`. Nó không giống như PHP (+Apache) clear hết mọi thứ mỗi khi kết thúc một request. Biến view_number ở phía Nodejs vẫn được giữ lại và chỉ đơn giản là tăng lên sau mỗi lượt request mà thôi.
 
 ### Cải tiến cho PHP có thể work như Nodejs
 
