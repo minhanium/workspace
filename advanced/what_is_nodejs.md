@@ -26,7 +26,7 @@ Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 > Điều này cho thấy, chúng ta có thể viết những cái script bằng ngôn ngữ Javascript để làm những chuyện tương tự như PHP, mà được thực thư thông quan Nodejs mà không cần thông qua trình duyệt. Và bài viết này sẽ cố gắng mô tả thông qua sự so sánh với PHP, cũng là một ngôn ngữ script được thông dịch qua PHP platform.
 
-# So sánh Nodejs vs. PHP
+# So sánh Nodejs platform vs. PHP plaftorm (+ Apache)
 
 ## So sánh theo cơ chế hoạt động
 
@@ -163,6 +163,8 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
         * => Không thừa không thiếu.
 
 2. Các giải pháp bổ sung rất phức tạp, kiến trúc khó bảo trì và chống lấn các script lên nhau như crontab, script checker, master, slave v.v...
+
+### Giải quyết vấn đề với PHP
 
 ### Giải quyết với Nodejs
 
