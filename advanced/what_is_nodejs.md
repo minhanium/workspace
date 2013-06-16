@@ -264,13 +264,12 @@ $facebook = new Facebook(array(
 ));
 
 $user_id 	= $argv[1];
-$start 		= (float)$argv[2];
+$index 		= $argv[2];
 
-print "-------------------------\n";
-$data = $facebook->api('/'.$user_id);
-print_r($data);
+$start	= microtime(true);
+$data 	= $facebook->api('/'.$user_id);
+print $index.';'.(microtime(true) - $start);
 print "\n";
-print "Thoi xu ly la: ". (microtime(true) - $start);
 ```
 
 Chúng ta cần một đoạn code để phân phối 200 user id cho `get_1_user_info.php`, file đó tạm gọi là: `master_get_user_info.php`
