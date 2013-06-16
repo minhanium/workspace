@@ -289,24 +289,57 @@ $users = [
 	'499615103'
 ];
 
+$i = 1;
 foreach($users as $user_id)
 {
-	$start = microtime(true);
-	exec("nohup php get_1_user_info.php $user_id $start >> log.txt &");
+	exec("nohup php get_1_user_info.php $user_id $i >> log_200php.csv &");
+	$i++;
 }
-
 ```
 	
-Gọi `php master_get_user_info.php` sau đó thì `tail -f log.txt` để xem chi tiết.
+Gọi `php master_get_user_info.php` sau đó thì `tail -f log_200php.csv` để xem chi tiết.
 
 ### Thu hoạch số 5
-	
+
+> Tới đây có thể chứng minh được như điều đã nói ban đầu là một lúc gọi nhiều request lên FB là tốt hơn. So với gọi tuần tự từng cái một.
+
+### Cách làm với Nodejs
+
+Chúng ta sẽ xem xét qua cách cũng cách làm trên nhưng implement bằng Nodejs thì sẽ như thế nào?
+
+```javascript
+var Facebook = require('facebook-node-sdk');
+
+var facebook = new Facebook({ appId: '332332643458417', secret: '902ecc21e7f85e042c79997e9ac671a3' });
+var users = [
+'224982',
+//...
+'304332',
+//...
+'499615103'
+];
+
+var start = new Date().getTime();
+
+for(var i in users)
+{
+	facebook.api('/'+users[i],
+		function(err, data) {
+			var end = new Date().getTime();
+			if( data && data.id)
+			{
+				var duration = (end-start)/1000;
+				console.log(users.indexOf(data.id)+';'+duration);
+	  		}
+		}
+	);
+}
+```
+
 ### Giải quyết vấn đề với PHP
 
 PHP không support Threading ở level native. Do đó nếu ở vấn đề phía trên, do ví dụ tiếp cận khá đơn giản, mà đủ cái nhìn tổng quát. Nếu chúng ta không phải làm bài toán về tăng `view_number` lên 1 đơn vị. Mà là một xử lý `request user info` từ facebook	với thời gian xử lý lâu hơn do phải over network. Thì điều gì xảy ra nếu như có nhiều request liên tục được gởi đến.
 
-
-### Giải quyết với Nodejs
 
 ### Demo kiểm chứng
 
