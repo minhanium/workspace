@@ -182,7 +182,7 @@ Chúng ta sẽ bàn về vấn đề này, thông qua một ngữ cảnh cụ th
 
 > Request lên Facebook 200 basic info của user thông qua [graph.facebook.com/user_id](graph.facebook.com/user_id). Trong thời gian nhanh nhất.
 
-### Vấn đề hiện tại của PHP
+### Phân tích sơ lược
 
 Tạm thời không nghĩ tới các vấn đề kỹ thuật như Batch, FSQL để tiếp cận một ví dụ cho đơn giản để làm rõ vấn đề hiện tại của PHP là gì?
 
@@ -204,7 +204,7 @@ Vậy thì với PHP chúng ta chỉ cần gọi `php get_1_user_info.php user_i
 
 Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy rất tốn kém tài nguyên. Và một máy tính thông thường, số lượng process có thể mở ra là có giới hạn. Chúng ta sẽ đi qua hai ví dụ tiếp theo để kiểm chứng điều này.
 
-### Cách làm hiện tại với PHP
+### Tiếp cận bằng ngôn ngữ PHP
 
 #### Xử lý tuần tự 200 request
 
@@ -303,7 +303,7 @@ Gọi `php master_get_user_info.php` sau đó thì `tail -f log_200php.csv` đ�
 
 > Tới đây có thể chứng minh được như điều đã nói ban đầu là một lúc gọi nhiều request lên FB là tốt hơn. So với gọi tuần tự từng cái một.
 
-### Cách làm với Nodejs
+### Tiếp cận bằng Nodejs
 
 Chúng ta sẽ xem xét qua cách cũng cách làm trên nhưng implement bằng Nodejs thì sẽ như thế nào?
 
@@ -336,7 +336,7 @@ for(var i in users)
 }
 ```
 
-### Vấn đề của PHP
+### Sự khác biệt cơ bản
 
 Nhưng chúng ta thấy đoạn code ở trên vì Nodejs được viết bằng ngôn ngữ Javascript, nên nó có support callback function, chúng ta có thể xử lý bất đồng bộ như AJAX mà chúng ta đã quen thuộc. Vậy liệu chúng ta có thể tiếp tục thay đổi code, để có thể viết PHP theo như cách ở trên không?
 Câu trả lời là `KHÔNG`. Tại sao? Bởi vì PHP không support Theading dưới dạng built-in, ít nhất là tại thời điểm hiện tại. Do đó hãy nhìn lại ví dụ về đếm số lượng request. Câu hỏi đặt ra là, nếu chúng ta không phải làm cái việc đơn giản là tăng số giá trị của biến `view_number` lên một, mà là một xử lý gì đó tốn nhiều thời gian hơn thì điều gì xảy ra. Hàm `socket_accept` sẽ không được gọi. Và những connect khác sẽ không đến được.
