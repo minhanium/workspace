@@ -200,26 +200,13 @@ Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, đ�
 
 > Vậy là một lượng connect hợp lý đến server mà không cần bắt máy tính phải đợi là hợp lý hơn nhiều so với lần lượt từng connection một.
 
-Vậy thì với PHP chúng ta chỉ cần gọi `php get_user_info.php user_id` 200 lần là được.
+Vậy thì với PHP chúng ta chỉ cần gọi `php get_1_user_info.php user_id` 200 lần là được.
 
-Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy rất tốn kém tài nguyên. Và một máy tính thông thường, số lượng process có thể mở ra là có giới hạn.
-
-> Không chỉ giới hạn về tài nguyên của máy tính khi tiếp cận với cách trên mà còn khó để lập trình + bảo trì cho nó. 
-
-### Thu hoạch số 5:
-
-1. Không kiểm soát được tài nguyên của máy tính:
-        
-        * Khi phải đợi thì máy tính làm gì?
-        * => Lúc đó làm thế nào để các script khác có thể thực thi script khác đang rãnh rỗi?
-        * Làm sao để kiểm soát được lượng request đến Facebook là đạt số lượng cho phép tối đa.
-        * => Không thừa không thiếu.
-
-2. Các giải pháp bổ sung rất phức tạp, kiến trúc khó bảo trì và chống lấn các script lên nhau như crontab, script checker, master, slave v.v...
+Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy rất tốn kém tài nguyên. Và một máy tính thông thường, số lượng process có thể mở ra là có giới hạn. Chúng ta sẽ đi qua hai ví dụ tiếp theo để kiểm chứng điều này.
 
 ### Cách làm hiện tại với PHP
 
-#### Xử lý tuần tự
+#### Xử lý tuần tự 200 request
 
 	
 ```php
@@ -257,12 +244,9 @@ echo "\n".'Tong thoi gian la: '. ($end - $start);
 
 Gọi `php get_200_user_info.php >> log.txt` và `tail -f log.txt` để xem sự thực thi của nó.
 
-> Demo này cho ta thấy việc foreach 200 lần để lấy user info là không khả thi. Vì thời gian over network cho mỗi connection là rất lâu. Do đó mà trong ứng dụng của chúng ta rất hạn chế gọi đến FB.
+> Demo này cho ta thấy việc foreach 200 lần để lấy user info là không khả thi. Vì thời gian over network cho mỗi connection là rất lâu.
 
-
-#### Xử lý nhiều proccess
-
-Nhưng nếu vậy mà buộc phải dùng PHP chúng ta phải làm sao?
+#### Xử lý nhiều nhiều request cùng lúc.
 
 Chúng ta sẽ phải tạo ra một file gọi là `get_1_user_info.php user_id` (tham số truyền vào là user id), và execute một lúc 200 lần như vậy cho 200 user id.
 	
@@ -316,9 +300,7 @@ foreach($users as $user_id)
 	
 Gọi `php master_get_user_info.php` sau đó thì `tail -f log.txt` để xem chi tiết.
 
-#### Thu hoạc số 6:
-
-> Việc tạo ra 200 process php để gọi là phức tạp và vấp phải nhiều vấn đề như đã nói ở trên.
+### Thu hoạch số 5
 	
 ### Giải quyết vấn đề với PHP
 
