@@ -341,6 +341,8 @@ for(var i in users)
 Nhưng chúng ta thấy đoạn code ở trên vì Nodejs được viết bằng ngôn ngữ Javascript, nên nó có support callback function, chúng ta có thể xử lý bất đồng bộ như AJAX mà chúng ta đã quen thuộc. Vậy liệu chúng ta có thể tiếp tục thay đổi code, để có thể viết PHP theo như cách ở trên không?
 Câu trả lời là `KHÔNG`. Tại sao? Bởi vì PHP không support Theading dưới dạng built-in, ít nhất là tại thời điểm hiện tại. Do đó hãy nhìn lại ví dụ về đếm số lượng request. Câu hỏi đặt ra là, nếu chúng ta không phải làm cái việc đơn giản là tăng số giá trị của biến `view_number` lên một, mà là một xử lý gì đó tốn nhiều thời gian hơn thì điều gì xảy ra. Hàm `socket_accept` sẽ không được gọi. Và những connect khác sẽ không đến được.
 
+![Nodejs vs. PHP CLI](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/nodejs_vs_php.png)
+
 ### Thu hoạch số 6:
 
 > Javascript/Nodejs support Threading dưới một cách native, do đó mà trong các vấn đề về xử lý bất đồng bộ, tiếp cận thông qua Nodejs là rất dễ dàng và đơn giản. Vì support multi-thread mà Nodejs dễ dang chia sẽ được tài nguyên vùng nhớ chung với nhau.
