@@ -206,7 +206,7 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 > Không chỉ giới hạn về tài nguyên của máy tính khi tiếp cận với cách trên mà còn khó để lập trình + bảo trì cho nó. 
 
-### Thu hoạch số 4:
+### Thu hoạch số 5:
 
 1. Không kiểm soát được tài nguyên của máy tính:
         
@@ -219,6 +219,63 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 ### Cách làm hiện tại với PHP
 
+1. Xử lý tuần tự
+	```php
+	<?php
+	error_reporting(0);
+	require 'facebook-php-sdk/src/facebook.php';
+	
+	$facebook = new Facebook(array(
+	  'appId'  => '332332643458417',
+	  'secret' => '902ecc21e7f85e042c79997e9ac671a3',
+	));
+	
+	/*Mot tap danh sach 200 FB user id */
+	$users = [
+		'224982',
+		//...
+		'499614956',
+		//...
+		'499615103'
+	];
+	
+	$start = microtime(true);
+	foreach($users as $user_id)
+	{
+		print "-------------------------\n";
+		$network_begin = microtime(true);
+		$data = $facebook->api('/'.$user_id);
+		print "Thoi gian over network la: ". (microtime(true) - $network_begin);
+		print "\n";
+		print_r($data);
+	}
+	$end = microtime(true);
+	echo "\n".'Tong thoi gian la: '. ($end - $start);
+	```
+
+Gọi `php get_200_user_info.php >> log.txt` và `tail -f log.txt` để xem sự thực thi của nó.
+
+> Demo này cho ta thấy việc foreach 200 lần để lấy user info là không khả thi. Vì thời gian over network cho mỗi connection là rất lâu. Do đó mà trong ứng dụng của chúng ta rất hạn chế gọi đến FB.
+
+
+2. Xử lý nhiều proccess
+
+Nhưng nếu vậy mà buộc phải dùng PHP chúng ta phải làm sao?
+
+Chúng ta sẽ phải tạo ra một file gọi là `get_1_user_info.php user_id` (tham số truyền vào là user id), và execute một lúc 200 lần như vậy cho 200 user id.
+	
+Code của `get_1_user_info.php`
+
+	```php
+	```
+
+Chúng ta cần một đoạn code để phân phối 200 user id cho `get_1_user_info.php`, file đó tạm gọi là: `master_get_user_info.php`
+
+Code của `master_get_user_ìnfo`
+
+	```php
+	```
+	
 ### Giải quyết vấn đề với PHP
 
 PHP không support Threading ở level native. Do đó nếu ở vấn đề phía trên, do ví dụ tiếp cận khá đơn giản, mà đủ cái nhìn tổng quát. Nếu chúng ta không phải làm bài toán về tăng `view_number` lên 1 đơn vị. Mà là một xử lý `request user info` từ facebook	với thời gian xử lý lâu hơn do phải over network. Thì điều gì xảy ra nếu như có nhiều request liên tục được gởi đến.
