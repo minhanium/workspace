@@ -336,12 +336,10 @@ for(var i in users)
 }
 ```
 
-### Giải quyết vấn đề với PHP
+### Vấn đề của PHP
 
-PHP không support Threading ở level native. Do đó nếu ở vấn đề phía trên, do ví dụ tiếp cận khá đơn giản, mà đủ cái nhìn tổng quát. Nếu chúng ta không phải làm bài toán về tăng `view_number` lên 1 đơn vị. Mà là một xử lý `request user info` từ facebook	với thời gian xử lý lâu hơn do phải over network. Thì điều gì xảy ra nếu như có nhiều request liên tục được gởi đến.
-
-
-### Demo kiểm chứng
+Nhưng chúng ta thấy đoạn code ở trên vì Nodejs được viết bằng ngôn ngữ Javascript, nên nó có support callback function, chúng ta có thể xử lý bất đồng bộ như AJAX mà chúng ta đã quen thuộc. Vậy liệu chúng ta có thể tiếp tục thay đổi code, để có thể viết PHP theo như cách ở trên không?
+Câu trả lời là `KHÔNG`. Tại sao? Bởi vì PHP không support Theading dưới dạng built-in, ít nhất là tại thời điểm hiện tại. Do đó hãy nhìn lại ví dụ về đếm số lượng request. Câu hỏi đặt ra là, nếu chúng ta không phải làm cái việc đơn giản là tăng số giá trị của biến `view_number` lên một, mà là một xử lý gì đó tốn nhiều thời gian hơn thì điều gì xảy ra. Hàm `socket_accept` sẽ không được gọi. Và những connect khác sẽ không đến được.
 
 ### Thu hoạch số 5:
 
