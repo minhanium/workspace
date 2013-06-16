@@ -219,7 +219,7 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 ### Cách làm hiện tại với PHP
 
-1. Xử lý tuần tự
+#### Xử lý tuần tự
 	```php
 	<?php
 	error_reporting(0);
@@ -258,23 +258,63 @@ Gọi `php get_200_user_info.php >> log.txt` và `tail -f log.txt` để xem s�
 > Demo này cho ta thấy việc foreach 200 lần để lấy user info là không khả thi. Vì thời gian over network cho mỗi connection là rất lâu. Do đó mà trong ứng dụng của chúng ta rất hạn chế gọi đến FB.
 
 
-2. Xử lý nhiều proccess
+#### Xử lý nhiều proccess
 
 Nhưng nếu vậy mà buộc phải dùng PHP chúng ta phải làm sao?
 
 Chúng ta sẽ phải tạo ra một file gọi là `get_1_user_info.php user_id` (tham số truyền vào là user id), và execute một lúc 200 lần như vậy cho 200 user id.
 	
-Code của `get_1_user_info.php`
+**Code của `get_1_user_info.php`**
 
 	```php
+	<?php
+	error_reporting(0);
+	require 'facebook-php-sdk/src/facebook.php';
+	
+	$facebook = new Facebook(array(
+	  'appId'  => '332332643458417',
+	  'secret' => '902ecc21e7f85e042c79997e9ac671a3',
+	));
+	
+	$user_id 	= $argv[1];
+	$start 		= (float)$argv[2];
+	
+	print "-------------------------\n";
+	$data = $facebook->api('/'.$user_id);
+	print_r($data);
+	print "\n";
+	print "Thoi xu ly la: ". (microtime(true) - $start);
 	```
 
 Chúng ta cần một đoạn code để phân phối 200 user id cho `get_1_user_info.php`, file đó tạm gọi là: `master_get_user_info.php`
 
-Code của `master_get_user_ìnfo`
+**Code của `master_get_user_ìnfo.php`**
 
 	```php
+	<?php
+	error_reporting(0);
+	/*Mot tap danh sach 200 FB user id */
+	$users = [
+		'224982',
+		//...
+		'304332',
+		//...
+		'499615103'
+	];
+	
+	foreach($users as $user_id)
+	{
+		$start = microtime(true);
+		exec("nohup php get_1_user_info.php $user_id $start >> log.txt &");
+	}
+
 	```
+	
+Gọi `php master_get_user_info.php` sau đó thì `tail -f log.txt` để xem chi tiết.
+
+#### Thu hoạc số 6:
+
+> Việc tạo ra 200 process php để gọi là phức tạp và vấp phải nhiều vấn đề như đã nói ở trên.
 	
 ### Giải quyết vấn đề với PHP
 
