@@ -343,7 +343,7 @@ Câu trả lời là `KHÔNG`. Tại sao? Bởi vì PHP không support Theading 
 
 ### Thu hoạch số 6:
 
-> Javascript/Nodejs support Threading dưới một cách native, do đó mà trong các vấn đề về xử lý bất đồng bộ, tiếp cận thông qua Nodejs là rất dễ dàng và đơn giản.
+> Javascript/Nodejs support Threading dưới một cách native, do đó mà trong các vấn đề về xử lý bất đồng bộ, tiếp cận thông qua Nodejs là rất dễ dàng và đơn giản. Vì support multi-thread mà Nodejs dễ dang chia sẽ được tài nguyên vùng nhớ chung với nhau.
 
 ## Liên lạc giữa PHP với Nodejs
 
