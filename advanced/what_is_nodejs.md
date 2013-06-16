@@ -220,38 +220,40 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 ### Cách làm hiện tại với PHP
 
 #### Xử lý tuần tự
-	```php
-	<?php
-	error_reporting(0);
-	require 'facebook-php-sdk/src/facebook.php';
+
 	
-	$facebook = new Facebook(array(
-	  'appId'  => '332332643458417',
-	  'secret' => '902ecc21e7f85e042c79997e9ac671a3',
-	));
-	
-	/*Mot tap danh sach 200 FB user id */
-	$users = [
-		'224982',
-		//...
-		'499614956',
-		//...
-		'499615103'
-	];
-	
-	$start = microtime(true);
-	foreach($users as $user_id)
-	{
-		print "-------------------------\n";
-		$network_begin = microtime(true);
-		$data = $facebook->api('/'.$user_id);
-		print "Thoi gian over network la: ". (microtime(true) - $network_begin);
-		print "\n";
-		print_r($data);
-	}
-	$end = microtime(true);
-	echo "\n".'Tong thoi gian la: '. ($end - $start);
-	```
+```php
+<?php
+error_reporting(0);
+require 'facebook-php-sdk/src/facebook.php';
+
+$facebook = new Facebook(array(
+  'appId'  => '332332643458417',
+  'secret' => '902ecc21e7f85e042c79997e9ac671a3',
+));
+
+/*Mot tap danh sach 200 FB user id */
+$users = [
+	'224982',
+	//...
+	'499614956',
+	//...
+	'499615103'
+];
+
+$start = microtime(true);
+foreach($users as $user_id)
+{
+	print "-------------------------\n";
+	$network_begin = microtime(true);
+	$data = $facebook->api('/'.$user_id);
+	print "Thoi gian over network la: ". (microtime(true) - $network_begin);
+	print "\n";
+	print_r($data);
+}
+$end = microtime(true);
+echo "\n".'Tong thoi gian la: '. ($end - $start);
+```
 
 Gọi `php get_200_user_info.php >> log.txt` và `tail -f log.txt` để xem sự thực thi của nó.
 
@@ -266,49 +268,51 @@ Chúng ta sẽ phải tạo ra một file gọi là `get_1_user_info.php user_id
 	
 **Code của `get_1_user_info.php`**
 
-	```php
-	<?php
-	error_reporting(0);
-	require 'facebook-php-sdk/src/facebook.php';
-	
-	$facebook = new Facebook(array(
-	  'appId'  => '332332643458417',
-	  'secret' => '902ecc21e7f85e042c79997e9ac671a3',
-	));
-	
-	$user_id 	= $argv[1];
-	$start 		= (float)$argv[2];
-	
-	print "-------------------------\n";
-	$data = $facebook->api('/'.$user_id);
-	print_r($data);
-	print "\n";
-	print "Thoi xu ly la: ". (microtime(true) - $start);
-	```
+
+```php
+<?php
+error_reporting(0);
+require 'facebook-php-sdk/src/facebook.php';
+
+$facebook = new Facebook(array(
+  'appId'  => '332332643458417',
+  'secret' => '902ecc21e7f85e042c79997e9ac671a3',
+));
+
+$user_id 	= $argv[1];
+$start 		= (float)$argv[2];
+
+print "-------------------------\n";
+$data = $facebook->api('/'.$user_id);
+print_r($data);
+print "\n";
+print "Thoi xu ly la: ". (microtime(true) - $start);
+```
 
 Chúng ta cần một đoạn code để phân phối 200 user id cho `get_1_user_info.php`, file đó tạm gọi là: `master_get_user_info.php`
 
 **Code của `master_get_user_ìnfo.php`**
 
-	```php
-	<?php
-	error_reporting(0);
-	/*Mot tap danh sach 200 FB user id */
-	$users = [
-		'224982',
-		//...
-		'304332',
-		//...
-		'499615103'
-	];
-	
-	foreach($users as $user_id)
-	{
-		$start = microtime(true);
-		exec("nohup php get_1_user_info.php $user_id $start >> log.txt &");
-	}
 
-	```
+```php
+<?php
+error_reporting(0);
+/*Mot tap danh sach 200 FB user id */
+$users = [
+	'224982',
+	//...
+	'304332',
+	//...
+	'499615103'
+];
+
+foreach($users as $user_id)
+{
+	$start = microtime(true);
+	exec("nohup php get_1_user_info.php $user_id $start >> log.txt &");
+}
+
+```
 	
 Gọi `php master_get_user_info.php` sau đó thì `tail -f log.txt` để xem chi tiết.
 
