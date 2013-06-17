@@ -396,6 +396,8 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 
 Sẽ là thiếu thuyết phục nếu như bài viết này không demo Nodejs với MySQL làm việc như thế nào? Chúng ta sẽ xem qua script bên dưới để xem Nodejs làm việc có khả thi không? Bằng cách lấy một lúc likes của 10 post và insert vào MySQL.
 
+Lấy tất cả thông tin về likes của post: [http://www.facebook.com/10151600027848360](http://www.facebook.com/10151600027848360)
+
 ```javascript
 var mysql      = require('mysql');
 var Facebook = require('facebook-node-sdk');
