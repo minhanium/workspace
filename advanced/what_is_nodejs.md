@@ -395,3 +395,80 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 ## Demo ~ Lấy likes info của một Post và insert vào MySQL
 
 Sẽ là thiếu thuyết phục nếu như bài viết này không demo Nodejs với MySQL làm việc như thế nào? Chúng ta sẽ xem qua script bên dưới để xem Nodejs làm việc có khả thi không? Bằng cách lấy một lúc likes của 10 post và insert vào MySQL.
+
+```javascript
+var mysql      = require('mysql');
+var Facebook = require('facebook-node-sdk');
+
+var facebook = new Facebook({
+	appId: '332332643458417',
+	secret: '902ecc21e7f85e042c79997e9ac671a3'
+});
+
+//Docs: https://github.com/felixge/node-mysql
+var connection = mysql.createConnection({
+	host          : 'localhost',
+	user          : 'root',
+	password      : '',
+	database      : 'master'
+});
+
+var i 				= 0,
+	graph 			= '/10151600027848360/likes',
+	id_social_post	= '10151600027848360',
+	id_social_page 	= '290539813359',
+	id_social_user	= null;
+
+//Connect to facebook to get likes
+facebook.api(graph,{
+	limit: 100
+},function(err, data){
+	if( data['data'].length );
+	{
+		insertDataToDb(data['data']);
+	}
+	if( data['paging'] && data['paging']['next'] )
+	{
+		getNextPage(data['paging']['next']);		
+	}
+});
+
+//Xu ly tuan tu cho next page
+function getNextPage(url)
+{
+	facebook.api(url, function(err, data){
+		if( data['data'].length );
+		{
+			insertDataToDb(data['data']);
+		}	
+		if( data['paging'] && data['paging']['next'] )
+		{
+			getNextPage(data['paging']['next'])
+		}
+	});
+}
+
+//Insert 100 rows to db each time
+var total = 0;
+function insertDataToDb(data)
+{
+	var strQuery 	= "INSERT INTO likes(id_social_user, id_social_post, id_social_page, created_time) VALUES ?";
+	var arrInsert	= [];
+	var created_time= parseInt(new Date().getTime()/1000);
+	for(var i in data)
+	{
+		var _data = data[i];
+		arrInsert.push([_data.id, id_social_post, id_social_page, created_time]);
+	}
+	total += data.length;
+	console.log(total);
+	connection.query(strQuery, [arrInsert], function(err) {
+		if( err )
+		{
+			console.log('Have error');
+			console.log(err);
+		}
+	});	
+}
+```
+> Quan sát thấy chúng ta không lấy đủ dữ liệu của Like ~7000 vs. 65k
