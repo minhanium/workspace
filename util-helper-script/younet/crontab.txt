@@ -1,0 +1,6 @@
+nohup php master_update_pages.php -h app.social4brands.com >> log/social4brands/master_update_pages.log &
+nohup php master_update_posts_detail.php -h app.social4brands.com >> log/social4brands/master_update_posts_detail.log &
+nohup php master_update_posts_engagement.php -h app.social4brands.com >> log/social4brands/master_update_posts_engagement.log &
+nohup php master_update_likes.php -h app.social4brands.com >> log/social4brands/master_update_likes.log &
+nohup php master_publish_posts.php -h app.social4brands.com >> log/social4brands/master_publish_posts.log &
+
