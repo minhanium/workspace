@@ -9,23 +9,6 @@ Nhưng như vậy là quá phức tạp. Hiểu một cách đơn giản là:
 **Nodejs là một trình thông dịch của cho ngôn ngữ Javascript**. Sao lại nói như vậy?
 
 1. Giả sử khi ta có ngôn ngữ PHP như:
-<<<<<<< HEAD
-		
-		```php
-        <?php
-            /*welcome.php*/
-            echo 'Hello world!';
-        ?>
-		```
-
-Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output ra cái nội dung `Hello world!`
-
-2. Với Nodejs ta có thể viết:
-		```javascript
-        /*welcome.js*/
-        console.log('Hello world!');
-		```
-=======
 
 	```php
 	<?php
@@ -41,7 +24,6 @@ Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output
     /*welcome.js*/
     console.log('Hello world!');
 	```
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
 Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 > Điều này cho thấy, chúng ta có thể viết những cái script bằng ngôn ngữ Javascript để làm những chuyện tương tự như PHP, được thực thi thông quan Nodejs mà không cần thông qua trình duyệt. Và bài viết này sẽ cố gắng mô tả thông qua sự so sánh với PHP platform.
@@ -136,38 +118,6 @@ Chúng ta viết một chương trình xây dựng bộ đếm đơn giản, c�
 
 Nói như vậy thì không same khi so sánh PHP (+Apache) vs. Nodejs. Bản thân Nodejs tự nó làm chức năng như một web server + handler. Mỗi khi có một request tới. Nó đơn giản là tạo ra một gọi cái callback mà chúng ta đã register để xứ lý. Do đó biến `view_numer` được chia sẽ/sử dụng lại như là biến toàn cục cho các function khác nhau. Nếu đứng ở view nhìn này, thì chúng ta cũng có thể dùng PHP để làm tương tự.
 
-<<<<<<< HEAD
-	<?php
-	error_reporting(E_ALL);
-	set_time_limit(0);
-	ob_implicit_flush();
-
-	$server         = create_socket();
-	$view_number    = 0;
-
-	do {
-		$request = socket_accept($server);
-		do {
-			$respone   = ++$view_number.'';
-			socket_write($request, $respone, strlen($respone));
-			break;
-		} while (true);
-		socket_close($request);
-	} while (true);
-
-	socket_close($server);
-
-	function create_socket()
-	{
-		$address    = '127.0.0.1';
-		$port       = 10000;
-		$sock       = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-		socket_bind($sock, $address, $port);
-		socket_listen($sock, 5);
-		return $sock;
-	}
-
-=======
 ```php
 <?php
 error_reporting(E_ALL);
@@ -200,7 +150,6 @@ function create_socket()
 }
 ```
 	
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
 ### Thu hoạch số 4:
 
 > Chúng ta có thể dùng PHP trong ngữ cảnh đơn giản này: counter số lượt request. Nhưng như vậy thì PHP và Nodejs khác biệc cơ bản là ở đâu?
@@ -246,13 +195,6 @@ Như ai đã từng dùng xDebug để debug PHP, là khi chúng ta gọi một 
 Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, để đợi kết quả trả về. Giả sử thời gian delay do phải over network là 900ms mỗi một request. Thì tuần tự mỗi lần chúng ta sẽ tốn 9s cho 9 requests. Trong khi đó chúng ta nếu mở 10 connect cùng lúc. Thì có thể chỉ tốn khoản ~1s cho 9 request mà thôi. Có thẻ mở trình duyệt lên để kiếm chứng điều này. Trình duyệt sẽ mở một lần nhiều connect đến server để request file javascript, css, image v.v...
 
 ![No Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/nothread.png)
-<<<<<<< HEAD
-
-![Multi Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/multithread.png)
-
-> Vậy là một lượng connect hợp lý đến server mà không cần bắt máy tính phải đợi là hợp lý hơn nhiều so với lần lượt từng connection một.
-=======
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
 
 ![Multi Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/multithread.png)
 
@@ -264,9 +206,6 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 
 ### Tiếp cận bằng ngôn ngữ PHP
 
-<<<<<<< HEAD
-### Thu hoạch số 4:
-=======
 #### Xử lý tuần tự 200 request
 
 	
@@ -274,7 +213,6 @@ Nhưng mỗi lần làm như vậy PHP lại start một process, như vậy r�
 <?php
 error_reporting(0);
 require 'facebook-php-sdk/src/facebook.php';
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
 
 $facebook = new Facebook(array(
   'appId'  => '332332643458417',
@@ -398,31 +336,16 @@ for(var i in users)
 }
 ```
 
-<<<<<<< HEAD
-### Cách làm hiện tại với PHP
-
-### Giải quyết vấn đề với PHP
-
-PHP không support Threading ở level native. Do đó nếu ở vấn đề phía trên, do ví dụ tiếp cận khá đơn giản, mà đủ cái nhìn tổng quát. Nếu chúng ta không phải làm bài toán về tăng `view_number` lên 1 đơn vị. Mà là một xử lý `request user info` từ facebook	với thời gian xử lý lâu hơn do phải over network. Thì điều gì xảy ra nếu như có nhiều request liên tục được gởi đến.
-
-
-### Giải quyết với Nodejs
-=======
 ### Sự khác biệt cơ bản
 
 Nhưng chúng ta thấy đoạn code ở trên vì Nodejs được viết bằng ngôn ngữ Javascript, nên nó có support callback function, chúng ta có thể xử lý bất đồng bộ như AJAX mà chúng ta đã quen thuộc. Vậy liệu chúng ta có thể tiếp tục thay đổi code, để có thể viết PHP theo như cách ở trên không?
 Câu trả lời là `KHÔNG`. Tại sao? Bởi vì PHP không support Theading dưới dạng built-in, ít nhất là tại thời điểm hiện tại. Do đó hãy nhìn lại ví dụ về đếm số lượng request. Câu hỏi đặt ra là, nếu chúng ta không phải làm cái việc đơn giản là tăng số giá trị của biến `view_number` lên một, mà là một xử lý gì đó tốn nhiều thời gian hơn thì điều gì xảy ra. Hàm `socket_accept` sẽ không được gọi. Và những connect khác sẽ không đến được.
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
 
 ![Nodejs vs. PHP CLI](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/nodejs_vs_php.png)
 
 ### Thu hoạch số 6:
 
-<<<<<<< HEAD
-> Javascript/Nodejs support Threading dưới một cách native, do đó mà trong các vấn đề về xử lý bất đồng bộ, tiếp cận thông qua Nodejs là rất dễ dàng và đơn giản.
-=======
 > Javascript/Nodejs support Threading dưới một cách native, do đó mà trong các vấn đề về xử lý bất đồng bộ, tiếp cận thông qua Nodejs là rất dễ dàng và đơn giản. Vì support multi-thread mà Nodejs dễ dang chia sẽ được tài nguyên vùng nhớ chung với nhau.
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
 
 ## Nodejs service ~ PHP push dữ liệu
 
@@ -473,8 +396,6 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 
 Sẽ là thiếu thuyết phục nếu như bài viết này không demo Nodejs với MySQL làm việc như thế nào? Chúng ta sẽ xem qua script bên dưới để xem Nodejs làm việc có khả thi không? Bằng cách lấy một lúc likes của 10 post và insert vào MySQL.
 
-<<<<<<< HEAD
-=======
 Lấy tất cả thông tin về likes của post: [http://www.facebook.com/10151600027848360](http://www.facebook.com/10151600027848360)
 
 ```javascript
@@ -553,4 +474,3 @@ function insertDataToDb(data)
 }
 ```
 > Quan sát thấy chúng ta không lấy đủ dữ liệu của Like ~7000 vs. 65k
->>>>>>> a2d16216e871cc68529e0804d896e41bcd742289
