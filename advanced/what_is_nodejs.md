@@ -9,19 +9,21 @@ Nhưng như vậy là quá phức tạp. Hiểu một cách đơn giản là:
 **Nodejs là một trình thông dịch của cho ngôn ngữ Javascript**. Sao lại nói như vậy?
 
 1. Giả sử khi ta có ngôn ngữ PHP như:
-
+		
+		```php
         <?php
             /*welcome.php*/
             echo 'Hello world!';
         ?>
+		```
 
 Khi execute `php welcome.php` thì nó sẽ thực thi cái file đó và output ra cái nội dung `Hello world!`
 
 2. Với Nodejs ta có thể viết:
-
+		```javascript
         /*welcome.js*/
         console.log('Hello world!');
-
+		```
 Khi execute `nodejs welcome.js` thì kết quả tương tự như với PHP.
 
 > Điều này cho thấy, chúng ta có thể viết những cái script bằng ngôn ngữ Javascript để làm những chuyện tương tự như PHP, được thực thi thông quan Nodejs mà không cần thông qua trình duyệt. Và bài viết này sẽ cố gắng mô tả thông qua sự so sánh với PHP platform.
@@ -176,13 +178,15 @@ Tạm thời không nghĩ tới các vấn đề kỹ thuật như Batch, FSQL �
 
 Như ai đã từng dùng xDebug để debug PHP, là khi chúng ta gọi một Graph API lên Facebook thông qua phương thức `Facebook::api(/<id_social_user>)` là cái hàm đó sẽ pending và đợi kết quả trả về.
 
-![PHP No Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/nothread.png)
-
 > Thực sự vấn đề là bên trong PHP sẽ dùng `curl` để request lên Facebook và đợi kết quả trả về. Ở `curl` chúng ta cũng có option để nó không phải đợi và đi tới hàm tiếp theo. Nhưng rõ ràng điều này không thể app dụng cho FB request. Chúng ta chỉ làm điều này, chỉ khi nào chúng ta chỉ send một rquest lên server mà không cần nhận kết quả trả về.
 
 Đến đây, tôi đã từng nghĩ rằng: **Vậy cũng đâu có sao, foreach 200 lần thôi.**
 
 Nhưng vấn đề ở chỗ là có sự delay giữa mỗi một request, để đợi kết quả trả về. Giả sử thời gian delay do phải over network là 900ms mỗi một request. Thì tuần tự mỗi lần chúng ta sẽ tốn 9s cho 9 requests. Trong khi đó chúng ta nếu mở 10 connect cùng lúc. Thì có thể chỉ tốn khoản ~1s cho 9 request mà thôi. Có thẻ mở trình duyệt lên để kiếm chứng điều này. Trình duyệt sẽ mở một lần nhiều connect đến server để request file javascript, css, image v.v...
+
+![No Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/nothread.png)
+
+![Multi Thread](https://imanager-vlibs.googlecode.com/svn/branches/nodejs/trunk/multithread.png)
 
 > Vậy là một lượng connect hợp lý đến server mà không cần bắt máy tính phải đợi là hợp lý hơn nhiều so với lần lượt từng connection một.
 
@@ -266,3 +270,4 @@ Trong phần này, chúng ta sẽ cố gắng mô tả 2 điều chính:
 ## Demo ~ Lấy likes info của một Post và insert vào MySQL
 
 Sẽ là thiếu thuyết phục nếu như bài viết này không demo Nodejs với MySQL làm việc như thế nào? Chúng ta sẽ xem qua script bên dưới để xem Nodejs làm việc có khả thi không? Bằng cách lấy một lúc likes của 10 post và insert vào MySQL.
+
