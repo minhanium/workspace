@@ -9,3 +9,4 @@ A.translate(10,0);
 http://www.ia.hiof.no/~borres/cgraph/math/twod/p-twod.html
 http://www.senocular.com/flash/tutorials/transformmatrix/
 http://www.willamette.edu/~gorr/classes/GeneralGraphics/Transforms/transforms2d.htm#Translations
+http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/2drota.htm
