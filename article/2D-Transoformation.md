@@ -14,6 +14,7 @@ A.translate(10,0);
 6. http://jonobr1.github.io/two.js/#documentation
 
 Những Framework quan trọng dành cho mình:
+
 1. http://fabricjs.com/fabric-intro-part-4/#free_drawing   
 2. http://raphaeljs.com/
 3. https://github.com/CreateJS/EaselJS
