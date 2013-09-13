@@ -22,4 +22,5 @@ Những Framework quan trọng dành cho mình:
 5. http://processingjs.org/articles/RenderingModes.html
 6. http://ocanvas.org/docs
 7. http://jonobr1.github.io/two.js/
+8. http://fabricjs.com/bounding-rectangle/
 
