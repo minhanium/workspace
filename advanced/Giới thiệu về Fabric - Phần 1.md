@@ -158,6 +158,11 @@ Fabric sẽ quản lý việc tạo hình và trạng thái của canvas cho ch�
 
 Okay, như bạn đã hình dung và nghĩ, chúng ta là các thuộc tính liên quan tới vị trí - left, top, kích thước - width, height, việc vẽ vời - fill, opacity, stroke, strokeWidth, sự co giãn và xoay - scaleX, scaleY, angle, và liên quan đến lật (flip) - flipX, flipY.
 
+Tạo ra một đối tượng được flip trong Fabric thì cũng dễ dàng bằng cách set filp* property = true.
+
+Bạn có thể lấy được các giá trị thuộc tính của nó thông qua phương thức `get` và thay đổi chúng thông qua phương thức `set`. Thử thay đổi một số thuộc tính của hình chữ nhật xem sao:
+
+
 
 
 [1]: http://fabricjs.com/        "Javascript Canvas Library"
