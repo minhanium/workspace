@@ -212,6 +212,208 @@ Hình chữ nhật của chúng ta có một tập mặc định các thuộc t�
 
 ###Hệ thống phân cấp và kế thừa
 
+Các đối tượng trong Fabric không chỉ tồn tại độc lập với nhau. Chúng tạo thành một hệ thống phân cấp.
+
+Hầu hết các đối tượng được kế thừa từ một gốc `fabric.Object`. `fabric.Object` đại diện cho hình dạng hai chiều, đặt trong một canvas hai chiều. Nó là một đối tượng với các thuộc tính như left/top và width/height, cũng như một loạt các đặc điểm đồ họa khác. Những thuộc tính mà chúng ta thấy trên các đối tượng - fill, stroke, angle, opacity, flip*, v.v... - được thừa hưởng cho tất cả đối khác trong Fabric mà nó kế thừa từ `fabric.Object`.
+
+Sự kế thừa này cho phép chúng ta định nghĩa các phương thức chung trên `fabric.Object` và chia sẻ cho các "lớp" con. Ví dụ, nếu bạn muốn có `getAngleInRadians` phương thức cho tất cả các đối tượng, đơn giản là bạn chỉ cần thêm chúng vào `fabric.Object.prototype`:
+
+	fabric.Object.prototype.getAngleInRadians = function() {
+	  return this.getAngle() / 180 * Math.PI;
+	};
+	
+	var rect = new fabric.Rect({ angle: 45 });
+	rect.getAngleInRadians(); // 0.785...
+	
+	var circle = new fabric.Circle({ angle: 30, radius: 10 });
+	circle.getAngleInRadians(); // 0.523...
+	
+	circle instanceof fabric.Circle; // true
+	circle instanceof fabric.Object; // true
+
+Bạn có thể thấy, phương thức này ngay lập tức có luôn trên tất cả các thực thể khác. (Đây là đặt điểm của ngôn ngữ Javascript)
+
+Trong khi các "lớp" con thừa kế từ lớp `fabric.Object` , chúng cũng có thể định nghĩa các phương thức và thuộc tính của riêng chúng. Ví dụ, `fabric.Circle` cần phải có thuộc "radius"(bán kính). Và `fabric.Image` - chúng ta sẽ tìm hiểu về nó sau - cần có phương thức `getElement/setElement` để  `get/set` <img> HTML từ các ảnh nguồn.
+
+##Canvas
+
+Chúng ta đã hiểu về các object một cách chi tiết, bây giờ, quay trở lại với vấn đề của canvas.
+
+Điều đầu tiên, bạn có thể thấy trong tất cả các ví dụ cần tạo ra một đối tượng canvas - `new fabric.Canvas('...')`. `fabric.Canvas` được xem như là một wrapper xung quanh <canvas> element, và chịu trách nhiệm quản lý tất cả các đối tượng trên canvas. Nó cần id, và trả về một instance của `fabric.Canvas`.
+
+Chúng ta có thể `add` đối tượng vào nó, `reference` chúng, và `remove` chúng:
+
+	var canvas = new fabric.Canvas('c');
+	var rect = new fabric.Rect();
+	
+	canvas.add(rect); // add object
+	
+	canvas.item(0); // reference fabric.Rect added earlier (first object)
+	canvas.getObjects(); // get all objects on canvas (rect will be first and only)
+	
+	canvas.remove(rect); // remove previously-added fabric.Rect
+
+Trong khi quản lý các đối tượng là mục đích chính của `fabric.Canvas`, nó cũng phục vụ như một chủ cấu hình. Nếu cần set thuộc tính màu nền hay hình ảnh cho toàn bộ canvas? Clip tất cả nội dung vào một khu vực nhất định? Thiết lập chiều rộng và chiều cao? Cho phép canvas có được tương tác hay không? Tất cả các tùy chọn này (và những cái khác) có thể được thiết lập trên `fabric.Canvas`, tại thời điểm khởi tạo hoặc sau đó:
+
+	var canvas = new fabric.Canvas('c', {
+	  backgroundColor: 'rgb(100,100,200)',
+	  selectionColor: 'blue',
+	  selectionLineWidth: 2
+	  // ...
+	});
+	
+	// or
+	
+	var canvas = new fabric.Canvas('c');
+	canvas.backgroundImage = 'http://...';
+	canvas.onFpsUpdate = function(){ /* ... */ };
+	// ...
+##Tương tác
+
+Trong khi chúng ta đang ở chủ đề về phần tử canvas, hãy bàn về sự tương tác. Một trong những tính năng độc đáo của Fabric - đó là xây dựng ngay bên trong - là một lớp tương tác trên top của tất cả những đối tượng, mà chúng ta được nhìn thấy.
+
+Mô hình đối tượng tồn tại để cho phép lập trình để truy xuất và thao tác đến các đối tượng trên canvas. Nhưng ở bên ngoài, ở góc độ người sử dụng, có một cách để thao tác các đối tượng thông qua chuột (hoặc chạm, trên các thiết bị cảm ứng). Ngay sau khi bạn khởi tạo canva thông qua `new fabric.Canvas('...')`, có thể chọn các đối tượng, kéo thả, làm co giãn hay xoay chúng, và thậm chí cả nhóm với nhau để thao tác trong cùng một nhóm!
+
+![Thao tác trên một đối tượng](http://fabricjs.com/article_assets/7.png "Thao tác trên một đối tượng")
+![Thao tác trên nhóm đối tượng](http://fabricjs.com/article_assets/8.png "Thao tác trên một đối tượng")
+
+Nếu chúng ta muốn cho phép người sử dụng có thể khéo thả gì đó trên canvas - giả một cái ảnh - thì tất cả những gì chúng ta phải là là khởi tạo canvas, và thêm cái đối tượng ảnh đó vào nó. Mà không cần phải thêm bất kì thiết lập nào khác.
+
+Để kiểm soát tương tác này, chúng tôi có thể sử dụng thuộc tính "selection" của Fabric trên cavas kết hợp với thuộc tính "selectable" trên mỗi object riêng rẽ.
+
+	var canvas = new fabric.Canvas('c');
+	...
+	canvas.selection = false; // disable group selection
+	rect.set('selectable', false); // make object unselectable
+
+Nhưng nếu bạn không muốn tương tác với tất cả các lớp của nó. Trong trường hợp này, bạn có thể thay thế lớp `fabric.Canvas` với lớp `fabric.StaticCanvas`. Cú pháp để khởi tạo là hoàn toàn giống nhau, bạn chỉ cần sử dụng **StaticCanvas** thay vì **Canvas**.
+
+	var staticCanvas = new fabric.StaticCanvas('c');
+	
+	staticCanvas.add(
+		new fabric.Rect({
+			width: 10, height: 20,
+			left: 100, top: 100,
+			fill: 'yellow',
+			angle: 30
+	}));
+
+  }));
+
+Điều này tạo ra một phiên bản light của canvas, không quản lý bất kì sự kiện logic nào. Lưu ý rằng, bạn có thể làm việc với các đối tượng  như thêm, xóa, hay thay đổi chúng, cũng như là thay đổi bất kì cấu hình nào của canvas - tất cả những điều này sẽ vẫn work. Chỉ là các xử lý liên quan đến sự kiện sẽ không còn nữa.
+
+Sau này, khi chúng ta đi đến các tùy chọn custom build , bạn sẽ thấy rằng nếu StaticCanvas là tất cả các bạn cần, bạn thậm chí sẽ còn tạo ra một phiên bản nhẹ hơn của Fabric. Điều này có thể là một lựa chọn đẹp, nếu bạn cần một cái gì đó như biểu đồ mà không cần phải tương tác, hoặc hình ảnh không tương tác chỉ với các bộ lọc trong ứng dụng của bạn.
+
+##Images
+
+Nói về hình ảnh ...
+
+Thêm hình chữ nhật và hình tròn trên canvas là niềm vui nhưng tại sao chúng ta không thử với một vài hình ảnh? Như bạn có thể hình dung lúc này, với Fabric thực hiện điều này khá dễ. Hãy tạo ra một thực thể của đối tượng `fabric.Image` và thêm nó vào canvas:
+
+(html)
+
+	<canvas id="c"></canvas>
+	<img src="my_image.png" id="my-image">
+
+(js)
+
+	var canvas = new fabric.Canvas('c');
+	var imgElement = document.getElementById('my-img');
+	var imgInstance = new fabric.Image(imgElement, {
+	  left: 100,
+	  top: 100,
+	  angle: 30,
+	  opacity: 0.85
+	});
+	canvas.add(imgInstance);
+
+Hãy chú ý cách chúng ta truyền một phần tử hình ảnh vào phương thức khởi tạo (constructor) của lớp `fabric.Image`. Điều này tạo ra một thể hiện của `fabric.Image` trông giống như hình ảnh từ document (DOM). Hơn nữa, chúng ta ngay lập tức gán giá trị left=100, top=100, xoay một góc 30 độ, và độ mờ là 0,85. Sau khi thêm vào canvas, một hình ảnh được vẽ tại vị trí (100,100), có góc xoay 30 độ, và có một chút transparent "nhẹ"! Không quá tệ đúng không?
+
+![Hình ảnh trong Fabric](http://fabricjs.com/article_assets/9.png)
+
+Bây giờ, nếu chúng ta không thực sự có một hình ảnh trong Document, mà chỉ có một URL của hình ảnh? Không sao. Hãy xem làm thế nào để xử dụng phương thức `fabric.Image.fromURL`:
+
+	fabric.Image.fromURL('my_image.png', function(oImg) {
+	  canvas.add(oImg);
+	});
+
+Trông khá đơn giản, phải không? Chỉ cần gọi đến phương thức `fabric.Image.fromURL` với một URL của hình ảnh, và cung cấp cho nó một **callback function** để triệu gọi một khi hình ảnh được tải về và tạo ra. Callback function sẽ nhận đối tượng `fabric.Image` vừa được tạo ra như là tham số đầu tiên. Vào thời điểm đó, bạn có thể thêm nó vào canvas hoặc thay đổi nó, và sau đó thêm vào canvas:
+
+	fabric.Image.fromURL('my_image.png', function(oImg) {
+		// scale image down, and flip it, before adding it onto canvas
+		oImg.scale(0.5).setFlipX(true);
+		canvas.add(oImg);
+	});
+
+##Path và PathGroup
+
+Chúng tôi đã xem xét một số đối tượng hình dạng đơn giản, sau đó là hình ảnh. Còn về những hình dạng và nội dung phức tạp cũng như phong phú hơn thì sao?
+
+Hãy cùng gặp gỡ về cặp đôi quyền lưc - Path và PathGroup.
+
+Path trong Fabric đại diện cho một phác thảo của một hình dạng có thể được fill, stroke, và sử đổi theo nhiều cách khác nhau. Đường dẫn bao gồm một loạt các lệnh, mà chủ yếu mô phỏng một cây bút đi từ điểm này đến điểm khác. Với sự giúp đỡ của các lệnh như "move", "line", "curve", hoặc "arc", đường dẫn có thể tạo thành hình dạng vô cùng phức tạp. Và với sự giúp đỡ của các nhóm Path (của PathGroup), sẽ mở ra cho bạn nhiều khả năng.
+
+Đường dẫn trong Fabric gần giống với các phần tử <path> của SVG . Chúng sử dụng cùng một tập các lệnh, chúng có thể được tạo ra từ các phần tử <path>, và tuần tự vào chúng. Chúng ta sẽ đi vào sâu hơn về thứ tự và SVG parser sau, nhưng lúc này, có điều đáng chú ý với bạn là, bạn ít khi nào phải tạo ra những Path bằng tay (Lời người dịch: bạn sẽ dùng một phần mềm nào đó như Inkscape). Thay vào đó, bạn sẽ sử dụng bộ SVG parser được tạo sẳn của Fabric. Nhưng để hiểu được đối tượng Path là gì, chúng ta hãy thử tạo ra một cái đơn giản bằng tay:
+
+	var canvas = new fabric.Canvas('c');
+	var path = new fabric.Path('M 0 0 L 200 100 L 170 200 z');
+	path.set({ left: 120, top: 120 });
+	canvas.add(path);
+
+![Một path về hình tam giác](http://fabricjs.com/article_assets/10.png)
+
+Chúng ta tạo một thực thể của đối tượng `fabric.Path`, truyền vào nó một chuỗi của những path instructions. Trong có vẻ phức tạp, nhưng nó rất dễ hiểu. "M" đại diện cho lệnh "move", và nó bảo cây bút chì vô hình di chuyển đến điểm (0,0). "L" là viết tắt của "Line" và nó cầm cây bút chì vẽ một đường thẳng tới điểm 200, 100 điểm (Nhớ là ban đầu cây bút chì được move lại điểm (0,0)) Sau đó, một "L" khác tạo ra một đường thẳng đến điểm (170, 200). Cuối cùng, "z" bảo cây bút chì vẽ bút vẽ một đường để đóng lại cái path hiện tại và hoàn thành cái hình dạng. Kết quả là, chúng ta có được một hình tam giác.
+
+Vì `fabric.Path` cũng giống như bất kỳ đối tượng khác trong Fabric, chúng ta cũng có thể thay đổi các thuộc tính của nó. Thậm chí là nhiều hơn:
+
+	...
+	var path = new fabric.Path('M 0 0 L 300 100 L 200 300 z');
+	...
+	path.set({ fill: 'red', stroke: 'green', opacity: 0.5 });
+	canvas.add(path);
+
+![Do more with Path](http://fabricjs.com/article_assets/11.png)
+
+Tò mò phải không, chúng ta hãy xem xét một cú pháp đường dẫn hơi phức tạp hơn. Bạn sẽ thấy lý do tại sao việc tạo ra đường dẫn bằng tay có thể không phải là ý tưởng tốt.
+
+	...
+	var path = new fabric.Path('M121.32,0L44.58,0C36.67,0,29.5,3.22,24.31,8.41\
+	c-5.19,5.19-8.41,12.37-8.41,20.28c0,15.82,12.87,28.69,28.69,28.69c0,0,4.4,\
+	0,7.48,0C36.66,72.78,8.4,101.04,8.4,101.04C2.98,106.45,0,113.66,0,121.32\
+	c0,7.66,2.98,14.87,8.4,20.29l0,0c5.42,5.42,12.62,8.4,20.28,8.4c7.66,0,14.87\
+	-2.98,20.29-8.4c0,0,28.26-28.25,43.66-43.66c0,3.08,0,7.48,0,7.48c0,15.82,\
+	12.87,28.69,28.69,28.69c7.66,0,14.87-2.99,20.29-8.4c5.42-5.42,8.4-12.62,8.4\
+	-20.28l0-76.74c0-7.66-2.98-14.87-8.4-20.29C136.19,2.98,128.98,0,121.32,0z');
+	
+	canvas.add(path.set({ left: 100, top: 200 }));
+
+Ở trên là điều gì vậy? Bạn thấy rối rối rồi đúng không? Và còn đuối với bài viết quá dài này nữa?
+
+À, "M" vẫn còn là viết tắt của lệnh "move", do đó cây bút chì bắt đầu cuộc hành trình vẽ của mình tại điểm (121,32, 0). Sau đó có chữ "L" mang nó đến điểm (44.58, 0). Đến đây vẫn còn khá dễ dàng với bạn. Thế tiếp theo là gì? Lệnh "C", lệnh viết tắt của "cubic bezier". Nó làm cho bút vẽ đường cong Bezier từ điểm hiện tại đến "36.67, 0". Nó sử dụng điểm (29,5, 3.22) như điểm kiểm soát ở đầu dòng, và (24.31, 8.41) như các điểm kiểm soát ở cuối dòng. Những điều này được tạo ra bởi hàng tá của các lệnh "cubic bezier" khác, cuối cùng là nó tạo ra một hình dạng trong có vẻ đẹp của **một mũi tên**.
+
+```Lời người dịch: Tốt nhất là dùng phần mềm cho lành```
+	
+![Một mũi tên với Path](http://fabricjs.com/article_assets/12.png)
+
+
+Rất may, là bạn sẽ không phải làm việc trực tiếp với những con quái vật này. Thay vào đó, bạn có thể muốn sử dụng một cái gì đó các phương thức như `fabric.loadSVGFromString` hoặc `fabric.loadSVGFromURL` để tải toàn bộ tập tin SVG được tạo ra sẳn bằng phần mềm bởi các designer, và để bộ phân tích cú pháp SVG của Fabric làm công việc của chính là nó đi qua các phần tử SVG và tạo ra các path tương ứng.
+
+Đề cập về toàn bộ SVG document, trong khi Path trong Fabric đại diện cho phần tử path của SVG, một tập hợp các path thì đại diện cho một tập các SVG document, được đại diện như PathGroups (các thể hiện của `fabric.PathGroup`). Như bạn có thể hình dung, PathGroup thật ra chỉ là một nhóm của các đối tượng Path. Và vì `fabric.PathGroup` được thừa kế từ `fabric.Object`, nó có thể được thêm vào cavans giống như bất kỳ các đối tượng nào khác, và thao tác cùng cách thức.
+
+
+Cũng giống như với Path, bạn hoàn toàn không cần phải làm việc trực tiếp với chúng. Nhưng nếu bạn vấp ngã khi một sau khi phân tích tài liệu SVG, bạn sẽ biết chính xác nó là gì và mục đích mà đến Trái Đất của nó.
+
+##Lời bạt
+
+Chúng ta chỉ vừa bàn sơ qua bề nổi về những gì mà Fabric có thể. Bây giờ bạn có thể dễ dàng tạo ra bất kỳ hình dạng đơn giản, phức tạp, hay hình ảnh, thêm chúng vào canvas, và sửa đổi theo bất kỳ cách mà bạn muốn - vị trí, kích thước, góc độ, màu sắc, nét, độ mờ - hoặc do bạn rạo ra (viết một method riêng của mình).
+
+Trong những phần tiếp theo của loạt bài này, chúng ta sẽ có một cái nhìn về làm việc theo nhóm các phần tử, hoạt hình (animation), văn bản (text), phân tích cú pháp SVG, dựng hình, tuần tự, các sự kiện, các bộ lọc hình ảnh, và nhiều điều khác nữa...
+
+Trong khi đó, hãy thoải mái để xem các bản [nanotated demo](http://fabricjs.com/demos/) hoặc [benchmark](http://fabricjs.com/benchmarks/), tham gia các cuộc thảo luận trong [google group](https://groups.google.com/forum/?fromgroups#!forum/fabricjs) hoặc ở [bất kì đâu](http://stackoverflow.com/questions/tagged/fabricjs), hoặc đi thẳng cho [docs](http://fabricjs.com/docs/), [wiki](https://github.com/kangax/fabric.js/wiki), và [source](https://github.com/kangax/fabric.js).
+
+Hãy có những trải nghiệm vui vẻ với Fabric! Tôi hi vọng bạn sẽ tận hưởng nhiều điều thú vị trên con đường lập trình viên của mình.
+
+
 [1]: http://fabricjs.com/        "Javascript Canvas Library"
 [2]: http://printio.ru
 [3]: http://http//www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
