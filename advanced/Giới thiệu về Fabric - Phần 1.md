@@ -193,6 +193,24 @@ Tại thời điểm này, bạn có thể hỏi - điều gì sẽ xảy ra n�
 
 Tất nhiên là như vậy. Các đối tượng trong Fabric luôn có những thuộc tính với các giá trị được thiết lập mặc định. Khi bỏ qua việc thiết lập các giá trị ban đầu cho đối tượng trong quá trình khởi tạo, các giá trị mặc định của sẽ được gán cho các thuộc tính. Chúng ta có kiểm nghiệm và hiểu theo cách của mình:
 
+	var rect = new fabric.Rect(); // notice no options passed in
+	
+	rect.getWidth(); // 0
+	rect.getHeight(); // 0
+	
+	rect.getLeft(); // 0
+	rect.getTop(); // 0
+	
+	rect.getFill(); // rgb(0,0,0)
+	rect.getStroke(); // null
+	
+	rect.getOpacity(); // 1
+
+Hình chữ nhật của chúng ta có một tập mặc định các thuộc tính. Nó được đặt tại vị trí (0,0), màu đen, độ trong suốt bằng 1, không có viền (stroke = 0), và "không có kích thước" (chiều rộng và cao bằng 0) Vì không có kích thước, chúng ta không thể nhìn thấy nó trên canvas. Chỉ cần gán cho nó bất kì một giá trị dương (>0) cho chiều rộng và chiều cao bạn sẽ thấy một hình chữ nhật màu đen xuất hiện tại góc trái phía trên của canvas.
+
+![Hình chữ nhật](http://fabricjs.com/article_assets/6.png)
+
+###Hệ thống phân cấp và kế thừa
 
 [1]: http://fabricjs.com/        "Javascript Canvas Library"
 [2]: http://printio.ru
