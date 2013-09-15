@@ -162,7 +162,36 @@ Tạo ra một đối tượng được flip trong Fabric thì cũng dễ dàng 
 
 Bạn có thể lấy được các giá trị thuộc tính của nó thông qua phương thức `get` và thay đổi chúng thông qua phương thức `set`. Thử thay đổi một số thuộc tính của hình chữ nhật xem sao:
 
+	var canvas = new fabric.Canvas('c');
+	...
+	canvas.add(rect);
+	
+	rect.set('fill', 'red');
+	rect.set({ strokeWidth: 5, stroke: 'rgba(100,200,200,0.5)' });
+	rect.set('angle', 15).set('flipY', true);
 
+![Demo - Thay đổi thuộc tính của đối tượng](http://fabricjs.com/article_assets/5.png "Thay đổi thuộc tính của đối tượng")
+
+Trước tiên, chúng ta gán thuộc tính "fill" giá trị "red", nghĩa là chúng ta tô màu đỏ cho đối tượng hình chữ nhật. Dòng lệnh tiếp theo là chúng ta "set" giá trị cho cả "stokeWidth" và "stoke", cho hình chữ nhật cái viền rộng 5px với màu xanh nhạt. Sau cùng, chúng ta thay đổi thuộc tính "angle" và "flipY". Chú ý rằng, với 3 statement trên chúng ta dùng 3 syntax hơi khác nhau một chút.
+
+Điều này cho thấy `set` là một phương thức tổng quát. Bạn sẽ thường xuyên sử dụng nó, và do đó, nó phải được thiết kế sao cho thuận tiện nhất có thể.
+
+Chúng ta đã tìm hiểu qua về `setter` và cả `getter`? Rất rõ ràng, ngoài phương thức tổng quá get chúng ta có thể cần những phương thức get* khác. Để đọc, giá trị về chiều rộng của một đối tượng, chúng ta sẽ phải dùng `get('width')` hoặc `getWidth()` Để lấy giá trị "scaleX" - `get('scaleX')` hoặc `getScaleX()` . Ngoài `getWidth` hoặc `getScaleX` chúng ta có thêm các phương thức tương tự cho ("stoke", "strokeWidth", "angle", v.v...)
+
+Bạn có thể chú ý rằng trong các ví dụ trước, các objects được tạo ra với cùng cách cấu hình chỉ với phương thức set Đó là bởi vì nó là giống hệt nhau. Bạn có thể "cấu hình" đối tượng tại thời điểm tạo ra, hoặc sử dụng phương thức `set` sau đó:
+
+	var rect = new fabric.Rect({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
+	
+	// or functionally identical
+	
+	var rect = new fabric.Rect();
+	rect.set({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
+
+###Câc options mặt định
+
+Tại thời điểm này, bạn có thể hỏi - điều gì sẽ xảy ra nếu chúng ta tạo ra đối tượng mà không truyền theo bất kì "cấu hình" object nào. Liệu chúng vẫn có những thuộc tính như đã đề cập?
+
+Tất nhiên là như vậy. Các đối tượng trong Fabric luôn có những thuộc tính với các giá trị được thiết lập mặc định. Khi bỏ qua việc thiết lập các giá trị ban đầu cho đối tượng trong quá trình khởi tạo, các giá trị mặc định của sẽ được gán cho các thuộc tính. Chúng ta có kiểm nghiệm và hiểu theo cách của mình:
 
 
 [1]: http://fabricjs.com/        "Javascript Canvas Library"
