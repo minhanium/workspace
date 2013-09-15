@@ -2,19 +2,19 @@
 
 ![Fabrics screenshot](https://github.com/kangax/fabric.js/raw/master/lib/screenshot.png "Fabrics screenshot")
 
-Hôm nay, tôi trân trọng giới thiệu với bạn về [Fabric.js][1] - một thư viện Javascript mạnh mẽ giúp bạn làm thỏa sức sáng tạo trên nền HTML5. Fabric cung cấp object model bị thiếu cho canvas, SVG parser [để có thể load file svg và vẽ lên canvas, cũng như canvas như là svg], các layer tương tác, và nhiều đồ chơi, công cụ khác. Fabric là open source, giấy phép MIT, với sự đóng góp tích cực trong nhiều năm của các lập trình viên khác trên thế giới.
+Hôm nay, tôi trân trọng giới thiệu với bạn về [Fabric.js][1] - một thư viện Javascript mạnh mẽ giúp bạn làm thỏa sức sáng tạo trên nền HTML5. Fabric cung cấp các object model (tạm dịch là: mô hình đối tượng) bị thiếu cho canvas, bộ [SVG ][4] parser [để có thể load file svg và vẽ lên canvas, cũng như chuyển canvas thành là svg], các layer tương tác, và nhiều đồ chơi, công cụ khác. Fabric là open source, giấy phép MIT, với sự cộng tác trong nhiều năm của các lập trình viên khác trên thế giới.
 
-Tôi bắt đầu phát triển bộ thư viện này khoảng 3 năm trước, và cảm thấy hết sức đuối khi phải làm việc trên những hàm native của canvas. Váo lúc đó, tôi bắt đầu làm [printio.ru][2] - một dự án startup cho phép người dùng có thể thiết kế quần áo của họ. Với các tính năng mà chỉ xuất hiện trên Flash vào thời điểm đó. Thậm chí giờ đây có rất ít người biết được rằng với Fabric gần như chúng ta có thể thay thế Flash.
+Tôi bắt đầu phát triển bộ thư viện này khoảng 3 năm trước, khi cảm thấy hết sức đuối khi phải làm việc trên những hàm native của canvas. Váo thời điểm đó, tôi bắt đầu làm về [printio.ru][2] - một dự án startup cho phép người dùng có thể thiết kế quần áo trực tiếp của họ. Với các tính năng mà chỉ xuất hiện trên Flash vào thời điểm đó. Thậm chí giờ đây có rất ít người biết được rằng với Fabric gần như chúng ta có thể làm được như Flash.
 
-Thậm chí giờ đây có rất ít người biết được rằng với Fabric gần như chúng ta có thể thay thế Flash!
+Vậy hãy "soi" kỹ hơn,
 
 ##Tại sao nên dùng Fabric hay là các vấn đề Canvas?
 
 Ngày nay, [Canvas][3] cho phép chúng ta tạo ra thỏa sức sáng tạo những chức năng đồ họa tuyệt vời chạy trên nền trình duyệt web. Nhưng sử dụng API của nó, có nghĩa là bạn phải sử dụng ở mức độ thấp những hàm cơ bản mà nó cung cấp. Nếu bạn chỉ muốn về một vài cái hình đơn giản như tròn, vuông... thì bạn có thể bỏ qua những gì tôi vừa nói, và quên đi bài viết này. Nhưng nếu bạn muốn làm điều gì đó phức tạp và ấn tượng hơn thì bạn nên tiếp tục đọc những phần tiếp theo bên dưới.
 
-Fabric được thiết kế nhằm để giải quyết những vấn đề này.
+Bởi vì, Fabric được thiết kế nhằm để giải quyết những vấn đề này.
 
-Những phương thức cơ bản của Canvas cho phép chúng ta tạo ra những lệnh đồ họa cơ bản, cho phép chúng ta theo thác trực tiếp lên đó như là ảnh bitmap (rất khó dịch sát nghĩa ý đồ tác giả chỗ này). Nếu bạn muốn vẽ một hình chữ nhật? Sử dụng hàm này: `fillRect(left, top, width, height)`. Còn nếu muốn vẽ một đường thẳng? Bạn cần sử dụng kết hợp hai hàm sau: `moveTo(left, top)` và `lineTo(x, y)`. Đó là nếu chúng ta vẽ trên canvas với **cây cọ (brush)**, với nhiều lớp, nhiều chất liệu rất khó kiểm soát trong trường hợp này.
+Những phương thức cơ bản của Canvas cho phép chúng ta tạo ra những lệnh đồ họa cơ bản, cho phép chúng ta theo thác trực tiếp lên đó như là ảnh bitmap (rất khó dịch sát nghĩa ý đồ tác giả chỗ này). Nếu bạn muốn vẽ một hình chữ nhật? Sử dụng hàm này: `fillRect(left, top, width, height)`. Còn nếu muốn vẽ một đường thẳng? Bạn cần sử dụng kết hợp hai hàm sau: `moveTo(left, top)` và `lineTo(x, y)`. Đó là nếu chúng ta vẽ trên canvas với **cây cọ (brush)**, với nhiều lớp, nhiều chất liệu rất khó kiểm soát trong trường hợp này (lời người dịch: giống như họa sỉ vẽ một bức tranh vậy).
 
 Thay vì thao tác trên những hàm ở mức thấp, Fabric cung cấp những **object model** cơ bản nhưng mạnh mẽ dựa trên những phương thức cơ bản. Cho phép chúng ta làm việc trên những đối tượng (Line, Circle, Rectangle) trực tiếp, kiểm soát được trạng thái và việc tạo hình/vẽ hình(rendering) của canvas.
 
@@ -51,7 +51,7 @@ Và bên dưới, tiếp theo là những gì được code với Fabric:
 
 ![Demo for Example 1](http://fabricjs.com/article_assets/1.png)
 
-Tới đây, bạn thấy kết quả là chúng ta vẽ được hai hình chữ nhật giống nhau có cùng kích thước. Tuy nhiên, bạn có thể thấy được sự khác nhau giữa các cách tiếp cận trên canvas. Với các phương thức native, chúng ta thao thác trên một context - một đối tượng đại diện cho một thể hiện(instance) của canvas bitmap. Với Fabric, chúng ta thao tác trên đối tượng(ở ví dụ này là: Rect) - khởi tạo chúng, thay đổi các thuộc tính của chúng, và thêm chúng vào canvas. Và bạn có thể thấy được những đối tượng này là các lớp đầu tiên trong Fabric.
+Tới đây, bạn thấy kết quả là chúng ta vẽ được hai hình chữ nhật giống nhau có cùng kích thước. Tuy nhiên, bạn có thể thấy được sự khác nhau giữa các cách tiếp cận trên canvas. Với các phương thức native, chúng ta thao thác trên một context - một đối tượng đại diện cho một thể hiện(instance) của canvas bitmap. Với Fabric, chúng ta thao tác trên đối tượng(ở ví dụ này là: Rect) - khởi tạo chúng, thay đổi các thuộc tính của chúng, và thêm chúng vào canvas. Và bạn có thể thấy được những đối tượng này là các lớp đầu tiên trong thế giới của Fabric.
 
 Nhưng nói về việc vẽ một hình chữ nhật màu đỏ thì rất nhàm chán. Chúng ta có thể làm một vài điều thú vị hơn với nó. Chẳng hạn như, xoay nhẹ nó:
 
@@ -85,7 +85,7 @@ và bây giờ là sử dụng các phương thức của Fabric:
 
 Tại sao chúng ta có thể làm như vậy?
 
-Tất cả những gì chúng ta phải làm với Fabric là gán giá trị 45 độ cho thuộc tính "angle" của đối tượng. So với phương pháp sử dụng các native API, điều này rõ ràng là dễ và tự nhiên hơn. Bạn nhớ rằng, chúng ta không thể hoạt động trên các đối tượng trên canvas (các đối tượng của Fabric là các đối tượng được mô phỏng). Với việc sử dụng các native API, chúng ta thực hiện tinh chỉnh "position" và "angle" của toàn bộ canvas bitmap (ctx.translate , ctx.rotate ) cho phù hợp với những gì chúng ta cần. Rồi sau đó, chúng ta vẽ hình chữ nhật lần nữa, vẫn gán giá trị offset là (-10, 10) và hình chữ nhật vẫn phải vẽ tại vị trí (100, 100). Chúng ta còn phải chuyển đổi đơn vị "degree" sang "radian" khi xoay trên canvas bitmap. (Quá nhiều phiền phức với nhiều thao tác).
+Tất cả những gì chúng ta phải làm với Fabric là gán giá trị 45 độ cho thuộc tính "angle" của đối tượng. So với phương pháp sử dụng các native API, điều này rõ ràng là dễ và tự nhiên hơn. Bạn nhớ rằng, chúng ta không thể hoạt động trên các đối tượng trên canvas (các đối tượng của Fabric là các đối tượng được mô phỏng). Với việc sử dụng các native API, chúng ta thực hiện tinh chỉnh "position" và "angle" của toàn bộ canvas bitmap (ctx.translate , ctx.rotate ) cho phù hợp với những gì chúng ta cần. Rồi sau đó, chúng ta vẽ hình chữ nhật lần nữa, vẫn gán giá trị offset là (-10, 10) và hình chữ nhật vẫn phải vẽ tại vị trí (100, 100). Chúng ta còn phải chuyển đổi đơn vị "degree" sang "radian" khi xoay trên canvas bitmap. (Lời người dịch: Quá nhiều phiền phức với nhiều thao tác).
 
 Tôi "dự" rằng, bạn đã bắt đầu hiểu chính xác rằng tại sao Fabric ra đời và tồn tại, và những thao tác phức tạp bên trong được ẩn như thế nào.
 
@@ -117,7 +117,7 @@ Và giờ, chúng ta xem rằng với Fabric chúng ta sẽ làm như thế nào
 
 ![Demo - ví dụ 3 - di chuyển hình chữ nhật](http://fabricjs.com/article_assets/3.png)
 
-Sự khác biệt này khá quan trọng. Với Fabric, chúng ta không cần phải xóa bỏ (trong từ từ tẩy xóa) nội dung đã vẽ trước đó trước khi muốn chỉnh sửa một nội dung nào đó. Chúng tôi vẫn làm việc với các đối tượng, đơn giản là thay đổi những thuộc tính của chúng, và cuối cùng là vẽ lại cái canvas để được một tấm hình mới.
+Sự khác biệt này khá quan trọng. Với Fabric, chúng ta không cần phải xóa bỏ (trong từ từ tẩy xóa) nội dung đã vẽ trước đó trước khi muốn chỉnh sửa một nội dung nào đó. Chúng ta vẫn làm việc với các đối tượng, đơn giản là thay đổi những thuộc tính của chúng, và cuối cùng là vẽ lại cái canvas để được một tấm hình mới.
 
 ##Objects - Đối tượng
 
@@ -148,9 +148,9 @@ Giờ muốn vẽ một vòng tròn? Chỉ cần tạo ra một đối tượng 
 
 .. Với đoạn code trên chúng ta đã có một hình tròn màu xanh lá, được vẽ tại vị trí (100,100) và một tam giác màu xanh nước biển tại vị trí (50,50).
 
-###Thao tác trên đối tượng
+##Thao tác trên đối tượng
 
-Tạo các đối tượng đồ họa - hình chữ nhật, hình tròn, hay một hình khác - chỉ mới là khởi đầu. Một lúc nào đó, chúng ta sẽ cần phải thay đổi chúng. Một hành động nào đó sẽ trigger sự sự thay đổi của trạng thái, hay là tạo ra animation the một sự xếp đặt có ý đồ nào đó. Hoặc chúng ta cho phép thay đổi thuộc tính của các đối tượng (bao gồm: màu sắc, độ trong suốt, kích thước, vị trí) khi tương tác bằng con chuột.
+Tạo các đối tượng đồ họa - hình chữ nhật, hình tròn, hay một hình khác - chỉ mới là bước khởi đầu. Một lúc nào đó, chúng ta sẽ cần phải thay đổi chúng. Một hành động nào đó sẽ trigger sự sự thay đổi của trạng thái, hay là tạo ra animation the một sự xếp đặt có ý đồ nào đó. Hoặc chúng ta cho phép thay đổi thuộc tính của các đối tượng (bao gồm: màu sắc, độ trong suốt, kích thước, vị trí) khi tương tác bằng con chuột.
 
 Fabric sẽ quản lý việc tạo hình và trạng thái của canvas cho chúng ta. Chúng ta chỉ cần thay đổi những đối tượng của mình.
 
@@ -178,7 +178,7 @@ Trước tiên, chúng ta gán thuộc tính "fill" giá trị "red", nghĩa là
 
 Chúng ta đã tìm hiểu qua về `setter` và cả `getter`? Rất rõ ràng, ngoài phương thức tổng quá get chúng ta có thể cần những phương thức get* khác. Để đọc, giá trị về chiều rộng của một đối tượng, chúng ta sẽ phải dùng `get('width')` hoặc `getWidth()` Để lấy giá trị "scaleX" - `get('scaleX')` hoặc `getScaleX()` . Ngoài `getWidth` hoặc `getScaleX` chúng ta có thêm các phương thức tương tự cho ("stoke", "strokeWidth", "angle", v.v...)
 
-Bạn có thể chú ý rằng trong các ví dụ trước, các objects được tạo ra với cùng cách cấu hình chỉ với phương thức set Đó là bởi vì nó là giống hệt nhau. Bạn có thể "cấu hình" đối tượng tại thời điểm tạo ra, hoặc sử dụng phương thức `set` sau đó:
+Bạn có thể chú ý rằng trong các ví dụ trước, các object được tạo ra với cùng cách cấu hình chỉ với phương thức `set`. Đó là bởi vì nó là giống hệt nhau. Bạn có thể "cấu hình" đối tượng tại thời điểm tạo ra, hoặc sử dụng phương thức `set` sau đó:
 
 	var rect = new fabric.Rect({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
 	
@@ -187,7 +187,7 @@ Bạn có thể chú ý rằng trong các ví dụ trước, các objects đư�
 	var rect = new fabric.Rect();
 	rect.set({ width: 10, height: 20, fill: '#f55', opacity: 0.7 });
 
-###Câc options mặt định
+##Các option mặc định
 
 Tại thời điểm này, bạn có thể hỏi - điều gì sẽ xảy ra nếu chúng ta tạo ra đối tượng mà không truyền theo bất kì "cấu hình" object nào. Liệu chúng vẫn có những thuộc tính như đã đề cập?
 
@@ -231,7 +231,7 @@ Sự kế thừa này cho phép chúng ta định nghĩa các phương thức ch
 	circle instanceof fabric.Circle; // true
 	circle instanceof fabric.Object; // true
 
-Bạn có thể thấy, phương thức này ngay lập tức có luôn trên tất cả các thực thể khác. (Đây là đặt điểm của ngôn ngữ Javascript)
+Bạn có thể thấy, phương thức này ngay lập tức có luôn trên tất cả các thể tiện (instance) khác. (Lời người dịch: Đây là đặt điểm của ngôn ngữ Javascript)
 
 Trong khi các "lớp" con thừa kế từ lớp `fabric.Object` , chúng cũng có thể định nghĩa các phương thức và thuộc tính của riêng chúng. Ví dụ, `fabric.Circle` cần phải có thuộc "radius"(bán kính). Và `fabric.Image` - chúng ta sẽ tìm hiểu về nó sau - cần có phương thức `getElement/setElement` để  `get/set` <img> HTML từ các ảnh nguồn.
 
@@ -239,7 +239,7 @@ Trong khi các "lớp" con thừa kế từ lớp `fabric.Object` , chúng cũng
 
 Chúng ta đã hiểu về các object một cách chi tiết, bây giờ, quay trở lại với vấn đề của canvas.
 
-Điều đầu tiên, bạn có thể thấy trong tất cả các ví dụ cần tạo ra một đối tượng canvas - `new fabric.Canvas('...')`. `fabric.Canvas` được xem như là một wrapper xung quanh <canvas> element, và chịu trách nhiệm quản lý tất cả các đối tượng trên canvas. Nó cần id, và trả về một instance của `fabric.Canvas`.
+Điều đầu tiên, bạn có thể thấy trong tất cả các ví dụ cần tạo ra một đối tượng canvas - `new fabric.Canvas('...')`. `fabric.Canvas` được xem như là một wrapper của phần tử <canvas>, và chịu trách nhiệm quản lý tất cả các đối tượng trên canvas. Nó cần id, và trả về một instance của `fabric.Canvas`.
 
 Chúng ta có thể `add` đối tượng vào nó, `reference` chúng, và `remove` chúng:
 
@@ -253,7 +253,7 @@ Chúng ta có thể `add` đối tượng vào nó, `reference` chúng, và `rem
 	
 	canvas.remove(rect); // remove previously-added fabric.Rect
 
-Trong khi quản lý các đối tượng là mục đích chính của `fabric.Canvas`, nó cũng phục vụ như một chủ cấu hình. Nếu cần set thuộc tính màu nền hay hình ảnh cho toàn bộ canvas? Clip tất cả nội dung vào một khu vực nhất định? Thiết lập chiều rộng và chiều cao? Cho phép canvas có được tương tác hay không? Tất cả các tùy chọn này (và những cái khác) có thể được thiết lập trên `fabric.Canvas`, tại thời điểm khởi tạo hoặc sau đó:
+Trong khi quản lý các đối tượng là mục đích chính của `fabric.Canvas`, nó cũng cho phép cấu hình chính nó. Nếu cần set thuộc tính màu nền hay hình ảnh cho toàn bộ canvas? Clip tất cả nội dung vào một khu vực nhất định? Thiết lập chiều rộng và chiều cao? Cho phép canvas có được tương tác hay không? Tất cả các tùy chọn này (và những cái khác) có thể được thiết lập trên `fabric.Canvas`, tại thời điểm khởi tạo hoặc sau đó:
 
 	var canvas = new fabric.Canvas('c', {
 	  backgroundColor: 'rgb(100,100,200)',
@@ -286,7 +286,7 @@ Nếu chúng ta muốn cho phép người sử dụng có thể khéo thả gì 
 	canvas.selection = false; // disable group selection
 	rect.set('selectable', false); // make object unselectable
 
-Nhưng nếu bạn không muốn tương tác với tất cả các lớp của nó. Trong trường hợp này, bạn có thể thay thế lớp `fabric.Canvas` với lớp `fabric.StaticCanvas`. Cú pháp để khởi tạo là hoàn toàn giống nhau, bạn chỉ cần sử dụng **StaticCanvas** thay vì **Canvas**.
+Nhưng nếu bạn không muốn cho người sử dụng tương tác với nó. Trong trường hợp này, bạn có thể thay thế lớp `fabric.Canvas` với lớp `fabric.StaticCanvas`. Cú pháp để khởi tạo là hoàn toàn giống nhau, bạn chỉ cần sử dụng **StaticCanvas** thay vì **Canvas**.
 
 	var staticCanvas = new fabric.StaticCanvas('c');
 	
@@ -351,7 +351,7 @@ Chúng tôi đã xem xét một số đối tượng hình dạng đơn giản, 
 
 Hãy cùng gặp gỡ về cặp đôi quyền lưc - Path và PathGroup.
 
-Path trong Fabric đại diện cho một phác thảo của một hình dạng có thể được fill, stroke, và sử đổi theo nhiều cách khác nhau. Đường dẫn bao gồm một loạt các lệnh, mà chủ yếu mô phỏng một cây bút đi từ điểm này đến điểm khác. Với sự giúp đỡ của các lệnh như "move", "line", "curve", hoặc "arc", đường dẫn có thể tạo thành hình dạng vô cùng phức tạp. Và với sự giúp đỡ của các nhóm Path (của PathGroup), sẽ mở ra cho bạn nhiều khả năng.
+Path trong Fabric đại diện cho một phác thảo của một hình dạng có thể được fill, stroke, và được chính sửa theo nhiều cách khác nhau. Đường dẫn bao gồm một loạt các lệnh, mà chủ yếu mô phỏng một cây bút đi từ điểm này đến điểm khác. Với sự giúp đỡ của các lệnh như "move", "line", "curve", hoặc "arc", đường dẫn có thể tạo thành hình dạng vô cùng phức tạp. Và với sự giúp đỡ của các nhóm Path (của PathGroup), sẽ mở ra cho bạn nhiều khả năng.
 
 Đường dẫn trong Fabric gần giống với các phần tử <path> của SVG . Chúng sử dụng cùng một tập các lệnh, chúng có thể được tạo ra từ các phần tử <path>, và tuần tự vào chúng. Chúng ta sẽ đi vào sâu hơn về thứ tự và SVG parser sau, nhưng lúc này, có điều đáng chú ý với bạn là, bạn ít khi nào phải tạo ra những Path bằng tay (Lời người dịch: bạn sẽ dùng một phần mềm nào đó như Inkscape). Thay vào đó, bạn sẽ sử dụng bộ SVG parser được tạo sẳn của Fabric. Nhưng để hiểu được đối tượng Path là gì, chúng ta hãy thử tạo ra một cái đơn giản bằng tay:
 
@@ -362,7 +362,7 @@ Path trong Fabric đại diện cho một phác thảo của một hình dạng 
 
 ![Một path về hình tam giác](http://fabricjs.com/article_assets/10.png)
 
-Chúng ta tạo một thực thể của đối tượng `fabric.Path`, truyền vào nó một chuỗi của những path instructions. Trong có vẻ phức tạp, nhưng nó rất dễ hiểu. "M" đại diện cho lệnh "move", và nó bảo cây bút chì vô hình di chuyển đến điểm (0,0). "L" là viết tắt của "Line" và nó cầm cây bút chì vẽ một đường thẳng tới điểm 200, 100 điểm (Nhớ là ban đầu cây bút chì được move lại điểm (0,0)) Sau đó, một "L" khác tạo ra một đường thẳng đến điểm (170, 200). Cuối cùng, "z" bảo cây bút chì vẽ bút vẽ một đường để đóng lại cái path hiện tại và hoàn thành cái hình dạng. Kết quả là, chúng ta có được một hình tam giác.
+Chúng ta tạo một thực thể của đối tượng `fabric.Path`, truyền vào nó một chuỗi của những path instructions. Trong có vẻ phức tạp, nhưng nó rất dễ hiểu. "M" đại diện cho lệnh "move", và nó bảo cây bút chì vô hình di chuyển đến điểm (0,0). "L" là viết tắt của "Line" và nó cầm cây bút chì vẽ một đường thẳng tới điểm (200, 100) (Nhớ là ban đầu cây bút chì được move lại điểm (0,0)). Sau đó, một "L" khác tạo ra một đường thẳng đến điểm (170, 200). Cuối cùng, "z" bảo cây bút chì vẽ bút vẽ một đường để đóng lại cái path hiện tại và hoàn thành cái hình dạng. Kết quả là, chúng ta có được một hình tam giác.
 
 Vì `fabric.Path` cũng giống như bất kỳ đối tượng khác trong Fabric, chúng ta cũng có thể thay đổi các thuộc tính của nó. Thậm chí là nhiều hơn:
 
@@ -405,7 +405,7 @@ Cũng giống như với Path, bạn hoàn toàn không cần phải làm việc
 
 ##Lời bạt
 
-Chúng ta chỉ vừa bàn sơ qua bề nổi về những gì mà Fabric có thể. Bây giờ bạn có thể dễ dàng tạo ra bất kỳ hình dạng đơn giản, phức tạp, hay hình ảnh, thêm chúng vào canvas, và sửa đổi theo bất kỳ cách mà bạn muốn - vị trí, kích thước, góc độ, màu sắc, nét, độ mờ - hoặc do bạn rạo ra (viết một method riêng của mình).
+Chúng ta chỉ vừa bàn sơ qua bề nổi về những gì mà Fabric có thể. Bây giờ bạn có thể dễ dàng tạo ra bất kỳ hình dạng đơn giản, phức tạp, hay hình ảnh, thêm chúng vào canvas, và sửa đổi theo bất kỳ cách mà bạn muốn - vị trí, kích thước, góc độ, màu sắc, nét, độ mờ - hoặc do bạn tạo ra (viết một method riêng của mình).
 
 Trong những phần tiếp theo của loạt bài này, chúng ta sẽ có một cái nhìn về làm việc theo nhóm các phần tử, hoạt hình (animation), văn bản (text), phân tích cú pháp SVG, dựng hình, tuần tự, các sự kiện, các bộ lọc hình ảnh, và nhiều điều khác nữa...
 
@@ -417,3 +417,4 @@ Hãy có những trải nghiệm vui vẻ với Fabric! Tôi hi vọng bạn s�
 [1]: http://fabricjs.com/        "Javascript Canvas Library"
 [2]: http://printio.ru
 [3]: http://http//www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
+[4]: http://en.wikipedia.org/wiki/Scalable_Vector_Graphics
