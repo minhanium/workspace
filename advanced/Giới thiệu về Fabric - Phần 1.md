@@ -83,6 +83,83 @@ và bây giờ là sử dụng các phương thức của Fabric:
 
 ![Demo của ví dụ 2 - xoay hình](http://fabricjs.com/article_assets/2.png)
 
+Tại sao chúng ta có thể làm như vậy?
+
+Tất cả những gì chúng ta phải làm với Fabric là gán giá trị 45 độ cho thuộc tính "angle" của đối tượng. So với phương pháp sử dụng các native API, điều này rõ ràng là dễ và tự nhiên hơn. Bạn nhớ rằng, chúng ta không thể hoạt động trên các đối tượng trên canvas (các đối tượng của Fabric là các đối tượng được mô phỏng). Với việc sử dụng các native API, chúng ta thực hiện tinh chỉnh "position" và "angle" của toàn bộ canvas bitmap (ctx.translate , ctx.rotate ) cho phù hợp với những gì chúng ta cần. Rồi sau đó, chúng ta vẽ hình chữ nhật lần nữa, vẫn gán giá trị offset là (-10, 10) và hình chữ nhật vẫn phải vẽ tại vị trí (100, 100). Chúng ta còn phải chuyển đổi đơn vị "degree" sang "radian" khi xoay trên canvas bitmap. (Quá nhiều phiền phức với nhiều thao tác).
+
+Tôi "dự" rằng, bạn đã bắt đầu hiểu chính xác rằng tại sao Fabric ra đời và tồn tại, và những thao tác phức tạp bên trong được ẩn như thế nào.
+
+Nhưng chúng ta hãy cùng xem qua một ví dụ khác nữa, về vấn đề giữ trạng thái của canvas.
+
+Giờ đây, nếu bạn muốn di chuyển hình chứ nhật màu đỏ đến một điểm khác trên canvas? Bạn sẽ làm điều này như thế nào nếu không thể thao tác trên một đối tượng? *[Lời người dịch: Ý tác giả chỗ này là sử dụng các native API]* Có phải chúng ta chỉ cần gọi một phương thức `fillRect` lần nữa trên canvas bitmap là được?
+
+Không hoàn toàn như vậy. Gọi thêm một phương phức `fillRect` nữa thực ra là sẽ vẽ một hình chữ nhật nữa trên cái canvas hiện tại. Như ở phần trên tôi đã đề cập bạn vẽ một bức tranh với cây cọ và dầu. Nói một cách khác, để **"di chuyển"** nó tới vị trí mới, trước tiên là chúng ta phải **"xóa hết những gì đã vẽ trước đó"**, và vẽ một hình chữ nhật tại vị trí mới.
+
+	var canvasEl = document.getElementById('c');
+	
+	...
+	ctx.strokRect(100, 100, 20, 20);
+	...
+	
+	// erase entire canvas area
+	ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+	ctx.fillRect(20, 50, 20, 20);
+
+Và giờ, chúng ta xem rằng với Fabric chúng ta sẽ làm như thế nào?
+
+	var canvas = new fabric.Canvas('c');
+	...
+	canvas.add(rect);
+	...
+	
+	rect.set({ left: 20, top: 50 });
+	canvas.renderAll();
+
+![Demo - ví dụ 3 - di chuyển hình chữ nhật](http://fabricjs.com/article_assets/3.png)
+
+Sự khác biệt này khá quan trọng. Với Fabric, chúng ta không cần phải xóa bỏ (trong từ từ tẩy xóa) nội dung đã vẽ trước đó trước khi muốn chỉnh sửa một nội dung nào đó. Chúng tôi vẫn làm việc với các đối tượng, đơn giản là thay đổi những thuộc tính của chúng, và cuối cùng là vẽ lại cái canvas để được một tấm hình mới.
+
+##Objects - Đối tượng
+
+Chúng ta đã hiểu cách để làm việc với hình chữ nhật như thế nào bằng cách gọi hàm gởi tạo của `fabric.Rect`. Tất nhiên Fabric cũng cung cấp những hình cơ bản khác như: hình tròn, tam giác, ellipse... Tất cả chúng đều nằm trong `fabric` "namespace" tương ứng như: `fabric.Circle`, `fabric.Triangle`, `fabric.Ellipse`...
+
+7 loại hình (đối tượng) cơ bản được cung cấp trong Fabric:
+
+* fabric.Circle
+* fabric.Ellipse
+* fabric.Line
+* fabric.Polygon
+* fabric.Polyline
+* fabric.Rect
+* fabric.Triangle
+
+Giờ muốn vẽ một vòng tròn? Chỉ cần tạo ra một đối tượng "circle" và thêm chúng vào canvas. Với các đối tượng hình khác, chúng ta cũng tiếp cận tương tự:
+
+	var circle = new fabric.Circle({
+	  radius: 20, fill: 'green', left: 100, top: 100
+	});
+	var triangle = new fabric.Triangle({
+	  width: 20, height: 30, fill: 'blue', left: 50, top: 50
+	});
+	
+	canvas.add(circle, triangle);
+
+![Demo - Ví dụ - vễ vẽ hình chữ nhật và hình tam giác cân](http://fabricjs.com/article_assets/4.png)
+
+.. Với đoạn code trên chúng ta đã có một hình tròn màu xanh lá, được vẽ tại vị trí (100,100) và một tam giác màu xanh nước biển tại vị trí (50,50).
+
+###Thao tác trên đối tượng
+
+Tạo các đối tượng đồ họa - hình chữ nhật, hình tròn, hay một hình khác - chỉ mới là khởi đầu. Một lúc nào đó, chúng ta sẽ cần phải thay đổi chúng. Một hành động nào đó sẽ trigger sự sự thay đổi của trạng thái, hay là tạo ra animation the một sự xếp đặt có ý đồ nào đó. Hoặc chúng ta cho phép thay đổi thuộc tính của các đối tượng (bao gồm: màu sắc, độ trong suốt, kích thước, vị trí) khi tương tác bằng con chuột.
+
+Fabric sẽ quản lý việc tạo hình và trạng thái của canvas cho chúng ta. Chúng ta chỉ cần thay đổi những đối tượng của mình.
+
+Ở các ví dụ trước, phương thức `set` và cách gọi `set({ left: 20, top: 50 })` sẽ "di chuyển" object từ vị trí cũ đến vị trí mới. Một cách liên quan "nhẹ" ở đây, chúng ta có thể thay đổi những thuộc tính khác của đối tượng cùng bằng cách như vậy. Vậy, những thuộc tính đó là gì?
+
+Okay, như bạn đã hình dung và nghĩ, chúng ta là các thuộc tính liên quan tới vị trí - left, top, kích thước - width, height, việc vẽ vời - fill, opacity, stroke, strokeWidth, sự co giãn và xoay - scaleX, scaleY, angle, và liên quan đến lật (flip) - flipX, flipY.
+
+
+
 [1]: http://fabricjs.com/        "Javascript Canvas Library"
 [2]: http://printio.ru
 [3]: http://http//www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
