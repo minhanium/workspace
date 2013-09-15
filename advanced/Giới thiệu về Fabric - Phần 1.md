@@ -389,7 +389,7 @@ Tò mò phải không, chúng ta hãy xem xét một cú pháp đường dẫn h
 
 Ở trên là điều gì vậy? Bạn thấy rối rối rồi đúng không? Và còn đuối với bài viết quá dài này nữa?
 
-À, "M" vẫn còn là viết tắt của lệnh "move", do đó cây bút chì bắt đầu cuộc hành trình vẽ của mình tại điểm (121,32, 0). Sau đó có chữ "L" mang nó đến điểm (44.58, 0). Đến đây vẫn còn khá dễ dàng với bạn. Thế tiếp theo là gì? Lệnh "C", lệnh viết tắt của "cubic bezier". Nó làm cho bút vẽ đường cong Bezier từ điểm hiện tại đến "36.67, 0". Nó sử dụng điểm (29,5, 3.22) như điểm kiểm soát ở đầu dòng, và (24.31, 8.41) như các điểm kiểm soát ở cuối dòng. Những điều này được tạo ra bởi hàng tá của các lệnh "cubic bezier" khác, cuối cùng là nó tạo ra một hình dạng trong có vẻ đẹp của **một mũi tên**.
+À, "M" vẫn còn là viết tắt của lệnh "move", do đó cây bút chì bắt đầu cuộc hành trình vẽ của mình tại điểm (121,32, 0). Sau đó có chữ "L" mang nó đến điểm (44.58, 0). Đến đây vẫn còn khá dễ dàng với bạn. Thế tiếp theo là gì? Lệnh "C", lệnh viết tắt của "cubic bezier". Nó làm cho bút vẽ đường cong Bezier từ điểm hiện tại đến "36.67, 0". Nó sử dụng điểm (29,5, 3.22) như điểm kiểm soát ở đầu dòng, và (24.31, 8.41) như các điểm kiểm soát ở cuối dòng. Những điều này được tạo ra bởi hàng tá của các lệnh "cubic bezier" khác, cuối cùng tạo ra **một mũi tên** khá đẹp.
 
 ```Lời người dịch: Tốt nhất là dùng phần mềm cho lành```
 	
