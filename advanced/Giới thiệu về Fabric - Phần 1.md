@@ -4,7 +4,7 @@
 
 Hôm nay, tôi trân trọng giới thiệu với bạn về [Fabric.js][1] - một thư viện Javascript mạnh mẽ giúp bạn làm thỏa sức sáng tạo trên nền HTML5. Fabric cung cấp các object model (tạm dịch là: mô hình đối tượng) bị thiếu cho canvas, bộ [SVG ][4] parser [để có thể load file svg và vẽ lên canvas, cũng như chuyển canvas thành là svg], các layer tương tác, và nhiều đồ chơi, công cụ khác. Fabric là open source, giấy phép MIT, với sự cộng tác trong nhiều năm của các lập trình viên khác trên thế giới.
 
-Tôi bắt đầu phát triển bộ thư viện này khoảng 3 năm trước, khi cảm thấy hết sức đuối khi phải làm việc trên những hàm native của canvas. Váo thời điểm đó, tôi bắt đầu làm về [printio.ru][2] - một dự án startup cho phép người dùng có thể thiết kế quần áo trực tiếp của họ. Với các tính năng mà chỉ xuất hiện trên Flash vào thời điểm đó. Thậm chí giờ đây có rất ít người biết được rằng với Fabric gần như chúng ta có thể làm được như Flash.
+Tôi bắt đầu phát triển bộ thư viện này khoảng 3 năm trước, khi cảm thấy hết sức đuối khi phải làm việc trên những hàm native của canvas. Váo thời điểm đó, tôi bắt đầu làm về [printio.ru][2] - một dự án startup cho phép người dùng có thể thiết kế mẫu áo quần trực tiếp. Với các tính năng mà chỉ xuất hiện trên Flash vào thời điểm đó. Thậm chí giờ đây có rất ít người biết được rằng với Fabric gần như chúng ta có thể làm được như Flash.
 
 Vậy hãy "soi" kỹ hơn,
 
