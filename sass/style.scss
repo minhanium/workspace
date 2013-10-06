@@ -1,0 +1,15 @@
+/* style.scss */
+$width: 800px;
+#navbar {
+  width: $width;
+  height: 23px;
+
+  ul { list-style-type: none; }
+  li {
+    float: left;
+    a { 
+	font-weight: bold; 
+	font-size: 18px;
+      }
+  }
+}
