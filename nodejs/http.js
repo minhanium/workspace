@@ -7,7 +7,7 @@ function request(index)
 	var options = {
 	  hostname: 'localhost',
 	  port: 80,
-	  path: '/test/index.php'
+	  path: '/test/index.php'//A File should sleep 5(s)
 	};
 
 	var req = http.request(options, function(res) {
